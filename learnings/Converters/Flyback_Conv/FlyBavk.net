@@ -1,0 +1,28 @@
+.title KiCad schematic
+.include edt01.sub
+.model __D1 D
+.save all
+.probe alli
+.probe p(Vc1)
+.probe p(Vip1)
+.probe p(Vse1)
+.probe p(XxSW1)
+.probe p(Vis1)
+.probe p(D1)
+.probe p(Rs1)
+.probe p(Xfmer1)
+.probe p(R0)
+.probe p(C1)
+.probe p(XxPWM1)
+Vc1 Net-_Vc1-Pad1_ 0 DC -0.5 
+Vip1 /a Net-_Vip1-Pad2_ DC 0 
+Vse1 /a 0 DC 15 
+XxSW1 /q 0 Net-_xPWM1-Out_ power_sw
+Vis1 /r Net-_Vis1-Pad2_ DC 0 
+D1 /s Net-_D1-K_ __D1
+Rs1 /o Net-_D1-K_ 0.001
+Xfmer1 Net-_Vip1-Pad2_ /q Net-_Vis1-Pad2_ /s xfmer PARAMS: Np=10 Ns=20 C=100uF
+R0 /o /r 10
+C1 /o /r 10u
+XxPWM1 Net-_Vc1-Pad1_ Net-_xPWM1-Out_ PWMtri
+.end

@@ -1,0 +1,30 @@
+.title KiCad schematic
+.include "/Users/manindersingh/Documents/GitHub/ngspice/learnings/FeedForward_Control/edt01.sub"
+.include "/Users/manindersingh/Documents/GitHub/ngspice/learnings/MPPT/edt01_mppt.sub"
+.include "/Users/manindersingh/Documents/ngspice/learnings/Converters/buck_converter/edt01.sub"
+.include "/Users/manindersingh/Documents/ngspice/learnings/pvsim/subckt_PV_symbol_simulation/pv.sub"
+.include "/Users/manindersingh/Documents/GitHub/ngspice/basic_models"
+.model __D1 D
+.model DI_1N4007 D  ( IS=76.9p RS=42.0m BV=1.00k IBV=5.00u
++ CJO=26.5p  M=0.333 N=1.45 TT=4.32u )
+C2 /o 0 100u
+R1 /o 0 100
+L1 /p 0 10m
+Xfilt3 Net-_filt3-in_ /d filt_ord_I k=1 tau=1ms
+XxPWM1 /d /g PWMtri
+Xfiltslow1 Net-_filtfast1-in_ /pb filt_ord_I k=1 tau=100ms
+Xfiltfast1 Net-_filtfast1-in_ /pd filt_ord_I k=1 tau=1ms
+Xtff1 Net-_tff1-t_ /tog Net-_V2-Pad1_ 0 T_FF
+XxPV1 Net-_Vipv1-Pad1_ 0 PVSource
+Vipv1 Net-_Vipv1-Pad1_ /t DC 0 
+Xmul1 /t Net-_V3-Pad1_ Net-_filtfast1-in_ mul
+B3 Net-_V3-Pad1_ 0 V=-I(Vipv1) 
+XSUMR1 /pb /pd Net-_tff1-t_ sum
+D1 /p /o DI_1N4007
+Xgain1 /tog Nest-_gain1-out_ gain k=2
+V2 Net-_V2-Pad1_ 0 PWL(0 1 1us 1 2us 0 1000ms 0)
+C1 /t 0 100u
+XxSW1 /t /p /g power_sw
+V1 Net-_V1-Pad1_ 0 DC 1 
+XSUMR2 Net-_gain1-out_ Net-_V1-Pad1_ Net-_filt3-in_ sum
+.end

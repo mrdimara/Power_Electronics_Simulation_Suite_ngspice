@@ -1,0 +1,11 @@
+% Half Wave - Bridge Rectifier
+.option reltol = 0.01 abstol = 0.001 vntol = 0.001
+.tran 1us 10ms uic
+.include HWB.net
+.control
+run 
+listing 
+display
+set gnu_terminal = qt
+gnuplot i_L_v_id_ip i(L1) i(vid1) i(vip1)
+.endc   
