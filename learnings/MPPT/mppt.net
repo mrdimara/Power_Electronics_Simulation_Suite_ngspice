@@ -1,48 +1,107 @@
-.title KiCad schematic
-.include "/Users/manindersingh/Documents/GitHub/ngspice/learnings/FeedForward_Control/edt01.sub"
-.include "/Users/manindersingh/Documents/GitHub/ngspice/learnings/MPPT/edt01_mppt.sub"
-.include "/Users/manindersingh/Documents/ngspice/learnings/Converters/buck_converter/edt01.sub"
-.include "/Users/manindersingh/Documents/ngspice/learnings/pvsim/subckt_PV_symbol_simulation/pv.sub"
-.model __D1 D
-.save all
-.probe alli
-.probe p(D1)
-.probe p(L1)
-.probe p(C2)
-.probe p(XxPWM1)
-.probe p(Xfilt3)
-.probe p(R1)
-.probe p(C1)
-.probe p(XSUMR1)
-.probe p(Xtff1)
-.probe p(Xmul1)
-.probe p(Xfiltslow1)
-.probe p(Vipv1)
-.probe p(XxPV1)
-.probe p(Xfiltfast1)
-.probe p(XxSW1)
-.probe p(Xgain1)
-.probe p(XSUMR2)
-.probe p(V1)
-.probe p(V2)
-D1 /o /p __D1
-L1 /p 0 L
-C2 /o 0 C
-XxPWM1 /d /g PWMtri
-Xfilt3 Net-_filt3-in_ /d filt_ord_I k=1 tau=1
-R1 /o 0 R
-C1 /t 0 C
-XSUMR1 /pb /pd Net-_tff1-t_ sum
-Xtff1 Net-_tff1-t_ /tog Net-_V2-Pad1_ 0 T_FF
-Xmul1 /t Net-_Bsense1-N+_ Net-_filtfast1-in_ mul
-Xfiltslow1 Net-_filtfast1-in_ /pb filt_ord_I k=1 tau=20ms
-Vipv1 Net-_Vipv1-Pad1_ /t DC 0 
-XxPV1 Net-_Vipv1-Pad1_ 0 PVSource
-Bsense1 Net-_Bsense1-N+_ 0 v = i(Vipv1) 
-Xfiltfast1 Net-_filtfast1-in_ /pd filt_ord_I k=1 tau=1ms
+.title RCC MPPT Buck Converter
+
+*========================================================
+* RCC MPPT POWER STAGE
+*========================================================
+
+*----------------------------
+* Input Capacitor with ESR
+*----------------------------
+C1 /t nC1 100u
+R_C1 nC1 0 0.05
+
+*----------------------------
+* Output Capacitor with ESR
+*----------------------------
+C2 /o nC2 100u
+R_C2 nC2 0 0.05
+
+*----------------------------
+* Load
+*----------------------------
+R1 /o 0 100
+
+*----------------------------
+* Buck Inductor + ESR
+*----------------------------
+L1 /p nL1 1m
+R_L1 nL1 0 0.05
+
+*----------------------------
+* Switch
+*----------------------------
 XxSW1 /t /p /g power_sw
-Xgain1 /tog Net-_gain1-out_ gain k=2
-XSUMR2 Net-_gain1-out_ Net-_V1-Pad1_ Net-_filt3-in_ sum
-V1 Net-_V1-Pad1_ 0 DC 1 
-V2 Net-_V2-Pad1_ 0 PWL( ) 
+
+*----------------------------
+* Freewheel Diode
+*----------------------------
+D1 /o /p Def
+
+*========================================================
+* PV SOURCE
+*========================================================
+
+XxPV1 Net-_Vipv1-Pad1_ 0 PVSource 1 50
+
+Vipv1 Net-_Vipv1-Pad1_ /t DC 0
+
+*========================================================
+* RCC POWER SENSING
+*========================================================
+
+* Instantaneous power
+Bsense2 /a_raw 0 V = V(/t)*(I(Vipv1))
+
+* Isolation RC
+Riso /a_raw /a 1k
+Ciso /a 0 1n
+
+*========================================================
+* RCC FILTERS
+*========================================================
+
+* Fast ripple filter
+Xfiltfast1 /a /pd filt_ord_I 1 2ms
+
+* Slow average filter
+Xfiltslow1 /a /pb filt_ord_I 1 20ms
+
+*========================================================
+* RCC ERROR GENERATION
+*========================================================
+
+Xsumr1 /pb /pd Net-_tff1-t_ sum
+
+*========================================================
+* TOGGLE BLOCK
+*========================================================
+
+V2 Net-_V2-Pad1_ 0 PWL(
++ 0 1
++ 1us 1
++ 2us 0
++ 100ms 0
++ )
+
+Xtff1 Net-_tff1-t_ /tog Net-_V2-Pad1_ 0 T_FF
+
+*========================================================
+* LOOP GAIN
+*========================================================
+
+Xgain1 /tog Net-_gain1-out_ gain 1.2
+
+V1 Net-_V1-Pad1_ 0 DC 0.5
+
+Xsumr2 Net-_gain1-out_ Net-_V1-Pad1_ Net-_filt3-in_ sum
+
+* Compensation filter
+Xfilt3 Net-_filt3-in_ /d filt_ord_I 1 2ms
+
+*========================================================
+* PWM
+*========================================================
+
+XxPWM1 /d /g PWMtri 1000
+
 .end

@@ -3,8 +3,8 @@
 *========================================================
 * Includes
 *========================================================
-.include "/Users/manindersingh/Documents/GitHub/ngspice/learnings/MPPT/edt01_mppt.sub"
-.include "/Users/manindersingh/Documents/ngspice/learnings/pvsim/subckt_PV_symbol_simulation/pv.sub"
+.include "edt01_mppt.sub"
+.include "pv.sub"
 
 .save all
 
@@ -22,7 +22,7 @@ C1 /t 0 100u
 XxSW1 /t /p /g power_sw
 
 * Freewheel diode
-D1 /p /o Def
+D1 /o /p Def
 
 * Buck inductor
 L1 /p 0 10m
@@ -42,7 +42,7 @@ Vipv1 Net-_Vipv1-Pad1_ /t DC 0
 
 * Behavioral current sense
 * IMPORTANT: negative sign for correct power polarity
-Bsense1 Net-_Bsense1-N+_ 0 V=-I(Vipv1)
+Bsense1 Net-_Bsense1-N+_ 0 V=I(Vipv1)
 
 * PV model
 XxPV1 Net-_Vipv1-Pad1_ 0 PVSource
@@ -82,7 +82,7 @@ V1 Net-_V1-Pad1_ 0 DC 1
 XSUMR2 Net-_gain1-out_ Net-_V1-Pad1_ Net-_filt3-in_ sum
 
 * PWM compensation filter
-Xfilt3 Net-_filt3-in_ /d filt_ord_I k=1 tau=1ms
+Xfilt3 Net-_filt3-in_ /d filt_ord_I k=1 tau=1
 
 * PWM generator
 XxPWM1 /d /g PWMtri

@@ -6,7 +6,7 @@
 
 .tran 1us 1000ms uic
 
-.include mppt_net.net
+.include mppt_net_3.net
 
 .control
 
@@ -34,7 +34,7 @@ gnuplot switch_node v(/p)
 gnuplot pwm_gate v(/g)
 
 * MPPT power
-gnuplot power v(/t)*(-i(Vipv1))
+gnuplot power v(/t)*(i(Vipv1))
 
 * Fast and slow filter comparison
 gnuplot mppt_filters v(/pd) v(/pb)
@@ -61,7 +61,7 @@ gnuplot pv_voltage_after v(/t)
 
 gnuplot output_voltage_after v(/o)
 
-gnuplot power_after v(/t)*(-i(Vipv1))
+gnuplot power_after v(/t)*(i(Vipv1))
 
 gnuplot mppt_filters_after v(/pd) v(/pb)
 

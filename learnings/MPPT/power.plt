@@ -5,13 +5,13 @@ set xlabel "s"
 set ylabel "W"
 set grid
 unset logscale x 
-set xrange [1.000000e-08:1.280039e-04]
+set xrange [0.000000e+00:1.000000e-01]
 unset logscale y 
-set yrange [-1.343836e+00:6.388741e-02]
+set yrange [-1.112739e+00:3.283505e+01]
 #set xtics 1
 #set x2tics 1
 #set ytics 1
 #set y2tics 1
 set format y "%g"
 set format x "%g"
-plot 'power.data' using 1:2 with lines lw 1 title "v(/t)*(-i(vipv1))"
+plot 'power.data' using 1:2 with lines lw 1 title "v(/t)*(i(vipv1))"
