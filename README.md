@@ -1,88 +1,262 @@
-# ngspice — Power Conversion Simulation (Open Source)
+# ngspice — Power Electronics Simulation and Modeling Repository
 
-A collection of ngspice netlists, KiCad custom symbols, subcircuit models, and MATLAB/Gnuplot post-processing scripts for simulating power conversion circuits with non-ideal component behaviour.
+A collection of **ngspice simulations, KiCad projects, reusable SPICE subcircuits, and Octave/MATLAB post-processing scripts** for studying and developing power electronics systems using fully open-source tools.
 
-Developed as part of coursework on **Design and Simulation of Power Conversion using Open Source Tools**, with a focus on building reusable, well-documented simulation assets using entirely free and open-source software.
+The repository contains learning exercises, reusable models, converter implementations, motor-drive simulations, photovoltaic systems, battery charging circuits, and control techniques with increasing levels of realism through non-ideal component modeling.
 
 ---
 
-## Repository Structure
+# Repository Structure
 
-```
+```text
 ngspice/
-├── learnings/              # Annotated netlists and notes from the course
-├── symbols_subckt/         # Custom KiCad symbols and ngspice subcircuit models
-├── Custom.kicad_sym        # KiCad symbol library (custom components)
-├── Custom.bak              # Backup of KiCad symbol library
-├── fwd_lossy.data          # Simulation output — forward voltage sweep (lossy diode)
-├── fwd_lossy.plt           # Gnuplot script — V-I characteristic plot
-├── fwd_lossy_current.data  # Simulation output — forward current sweep
-└── fwd_lossy_current.plt   # Gnuplot script — current waveform plot
+
+├── learnings/
+│   ├── Converters/
+│   │   ├── Buck Converter
+│   │   ├── Boost Converter
+│   │   ├── Buck-Boost Converter
+│   │   ├── Flyback Converter
+│   │   ├── Forward Converter
+│   │   ├── Push-Pull Converter
+│   │   ├── Half Bridge
+│   │   └── Full Bridge
+│   │
+│   ├── MPPT/
+│   │   ├── PV modeling
+│   │   └── Maximum Power Point Tracking
+│   │
+│   ├── Charging/
+│   │   ├── Battery charging circuits
+│   │   └── PV charging systems
+│   │
+│   ├── PWM/
+│   │   ├── SPWM
+│   │   └── SVPWM
+│   │
+│   ├── rectifier/
+│   │   ├── Single phase
+│   │   ├── Three phase
+│   │   └── Non-ideal analysis
+│   │
+│   ├── FeedForward_Control/
+│   │
+│   ├── Passive_Power_Factor_improvement/
+│   │
+│   └── v_by_f_im/
+│       └── Induction motor V/F control
+│
+├── symbols_subckt/
+│   ├── Custom symbols
+│   └── Subcircuit models
+│
+├── basic_models/
+│   ├── Diodes
+│   ├── BJTs
+│   ├── MOSFETs
+│   ├── Op-Amps
+│   └── Regulators
+│
+├── special_models/
+│
+├── MicroCap-LIBRARY-for-ngspice/
+│
+└── README.md
 ```
 
 ---
 
-## What's Inside
+# Major Topics Covered
 
-### `learnings/`
-Step-by-step simulation exercises covering fundamental power conversion building blocks — rectifiers, converters, and switching circuits — with ngspice netlists and inline comments explaining circuit behaviour and simulation directives.
+## Power Converter Topologies
 
-### `symbols_subckt/`
-Reusable subcircuit definitions (`.subckt`) for non-ideal components such as lossy diodes, switches with on-resistance, and parasitic models. Paired with matching KiCad symbols for schematic-driven simulation workflows.
+- Buck converter
+- Boost converter
+- Buck-Boost converter
+- Flyback converter
+- Forward converter
+- Push-Pull converter
+- Half-Bridge converter
+- Full-Bridge converter
 
-### Lossy Diode Characterisation
-The root-level `.data` and `.plt` files capture the forward V-I characteristics and current response of a non-ideal diode model, demonstrating how forward voltage drop and series resistance are accounted for in circuit simulation.
+Topics explored:
+
+- Switching behavior
+- CCM/DCM operation
+- Non-ideal components
+- Voltage/current stress
+- Efficiency analysis
+- Dynamic response
 
 ---
 
-## Tools Required
+## Motor Drive Simulations
 
-| Tool | Purpose | Install |
-|------|---------|---------|
-| [ngspice](https://ngspice.sourceforge.io/) | SPICE simulation engine | `sudo apt install ngspice` |
-| [KiCad](https://www.kicad.org/) | Schematic capture & symbol editor | [kicad.org](https://www.kicad.org/download/) |
-| [Gnuplot](http://www.gnuplot.info/) | Plot simulation output | `sudo apt install gnuplot` |
-| MATLAB / Octave | Post-processing & analysis scripts | [GNU Octave](https://octave.org/) (free alternative) |
+Includes:
+
+- V/F induction motor control
+- PWM generation
+- SVPWM implementation
+- Motor mathematical modeling
+- Octave-based analysis
+
+Future work:
+
+- Field Oriented Control (FOC)
+- Six-phase induction motor drive
+- FPGA implementation
+- Advanced control methods
 
 ---
 
-## Getting Started
+## Photovoltaic Systems
 
-**Clone the repository**
+Includes:
+
+- PV cell models
+- PV source subcircuits
+- MPPT simulations
+- Battery charging systems
+
+Topics:
+
+- I-V characteristics
+- P-V characteristics
+- MPPT behavior
+- Converter interaction with PV sources
+
+---
+
+## Rectifiers and Power Quality
+
+Includes:
+
+- Single-phase rectifiers
+- Three-phase rectifiers
+- Passive power factor improvement
+
+Topics:
+
+- Harmonics
+- Ripple analysis
+- Current waveforms
+- Non-ideal effects
+
+---
+
+## Reusable Component Models
+
+Includes reusable SPICE models for:
+
+- Diodes
+- BJTs
+- MOSFETs
+- Op-Amps
+- Voltage regulators
+- Logic ICs
+- Custom subcircuits
+
+---
+
+# Tools Used
+
+| Tool | Purpose |
+|-------|----------|
+| ngspice | Circuit simulation |
+| KiCad | Schematic capture |
+| GNU Octave | Mathematical modeling |
+| MATLAB | Post-processing |
+| Gnuplot | Visualization |
+| Git | Version control |
+
+---
+
+# Getting Started
+
+Clone repository:
+
 ```bash
-git clone https://github.com/mrdimara/ngspice.git
+git clone <repository-url>
 cd ngspice
 ```
 
-**Run a netlist simulation**
+Run simulation:
+
 ```bash
-ngspice <netlist_file>.cir
+ngspice example.cir
 ```
 
-**Plot results with Gnuplot**
+Run Octave scripts:
+
 ```bash
-gnuplot fwd_lossy.plt
+octave sim.m
 ```
 
-**Load the custom KiCad symbol library**
-In KiCad → Symbol Editor → `File > Add Library` → select `Custom.kicad_sym`.
+Open KiCad project:
+
+```bash
+Open *.kicad_pro
+```
 
 ---
 
-## Background
+# Typical Workflow
 
-This repo accompanies the open-source power electronics simulation course offered by IISc Bangalore. The focus is on building circuit intuition through simulation before hardware implementation — covering diode non-idealities, switching losses, rectifier topologies, and converter dynamics, all using freely available tools.
+```text
+Circuit Design
+        ↓
+KiCad Schematic
+        ↓
+Generate Netlist
+        ↓
+ngspice Simulation
+        ↓
+Export Data
+        ↓
+Octave/MATLAB Processing
+        ↓
+Plot Results
+```
 
 ---
 
-## Author
+# Current Focus Areas
 
-**Mrdimara**
-B.Tech Electrical Engineering, IIT (ISM) Dhanbad
-[github.com/mrdimara](https://github.com/mrdimara)
+Current work includes:
+
+- MPPT system development
+- Battery charging systems
+- Six-phase induction motor control
+- ROS2 learning for autonomous systems
+- FPGA implementation of motor control algorithms
+- Power electronics modeling
 
 ---
 
-## License
+# Future Goals
 
-This repository is a public template. Feel free to fork and adapt for your own coursework or research.
+- Six-phase FOC implementation
+- FPGA-based control architecture
+- High-accuracy converter models
+- Hardware validation
+- EV drive simulations
+- Integrated motor-drive systems
+
+---
+
+# Author
+
+Maninder Singh
+
+Electrical Engineering  
+IIT (ISM) Dhanbad
+
+GitHub:
+https://github.com/<your-github>
+
+---
+
+# License
+
+Open-source repository for learning, experimentation, and research.
+Feel free to use and modify for educational or research purposes.
