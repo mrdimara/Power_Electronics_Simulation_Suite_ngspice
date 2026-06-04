@@ -2,7 +2,7 @@
 * MPPT Simulation
 *========================================================
 
-.option reltol=1e-6 abstol=1e-9
+*.option reltol=1e-6 abstol=1e-9
 
 .tran 1us 1000ms uic
 

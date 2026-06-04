@@ -5,9 +5,9 @@ set xlabel "s"
 set ylabel "V"
 set grid
 unset logscale x 
-set xrange [1.000000e-08:1.000000e-04]
+set xrange [1.000000e-08:1.000000e+00]
 unset logscale y 
-set yrange [-4.989500e-02:1.049995e+00]
+set yrange [-1.968582e+00:4.134241e+01]
 #set xtics 1
 #set x2tics 1
 #set ytics 1
