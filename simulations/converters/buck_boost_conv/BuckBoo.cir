@@ -1,5 +1,5 @@
 *Buck - Boost Converetr Simulation
-.tran 1us 100ms
+.tran 1us 100ms uic
 .include BuckBoo.net
 *Control
 .control

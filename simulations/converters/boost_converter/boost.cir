@@ -1,22 +1,17 @@
 *Boost Converetr Simulation
-.tran 1us 10ms
+.tran 1us 100ms uic
 .include Boost.net
 *Control
 .control
 run
 listing
 display
+set color0 = white 
+set color1 = black
 plot i(L1)
 plot v(L1) i(L1)
 plot -i(V1) avg(-i(V1))
 plot v(/PWM_out)
-plot i(/R_pos)
-plot v(/R_pos) i(/R_pos)
-plot -i(/R_pos) avg(-i(/R_pos))
-plot v(/PWM_out)
-* set gnuplot_terminal = qt
-* gnuplot I_L i(L1)
-* gnuplot V&I_L v(L1) i(L1)
-* gnuplot I_Vin -i(V1) avg(-i(V1))
-* gnuplot PWM_out v(/PWM_out)
+plot v(/r_pos) 
+.print tran V(/Vin_pos) V(/L1_neg) V(/R_pos) I(L1)
 .endc

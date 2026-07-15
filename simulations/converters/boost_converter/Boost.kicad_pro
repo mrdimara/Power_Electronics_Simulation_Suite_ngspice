@@ -416,7 +416,7 @@
         "uuid": "7092740b-df63-4337-839a-9585fc643035"
       }
     ],
-    "used_designators": "#GND1,R1,D1,C1,xPWM1,xSW1,L1,V1-2",
+    "used_designators": "#GND1,R1,xSW1,xPWM1,C1,D1,L1,V1-2",
     "variants": []
   },
   "sheets": [

@@ -2048,7 +2048,7 @@
 				)
 			)
 		)
-		(property "Sim.Library" "/Users/manindersingh/Documents/ngspice/learnings/Converters/Buck Converter/edt01.sub"
+		(property "Sim.Library" "edt01.sub"
 			(at 146.05 105.41 0)
 			(hide yes)
 			(show_name no)
@@ -2555,7 +2555,7 @@
 				)
 			)
 		)
-		(property "Sim.Library" "/Users/manindersingh/Documents/ngspice/learnings/Converters/Buck Converter/edt01.sub"
+		(property "Sim.Library" "edt01.sub"
 			(at 87.63 153.67 0)
 			(hide yes)
 			(show_name no)
