@@ -1,0 +1,95 @@
+*Library of custom components
+*****************************
+
+*****************************
+*Diodes
+*****************************
+.model Def D()
+
+*----------------------------
+*Diode macro model
+*connections  |Anode
+*             | |Cathode
+*             | |
+.SUBCKT diode_power 101 102
+DX 101 102 def_power_diode
+Rsh 101 103 10000
+Csh 103 102 0.01uF
+.model def_power_diode D(Rs=0.01 CJ0=100pF)
+.ENDS
+
+*----------------------------
+*Switch model (standalone)
+.model switch SW(RON=0.001)
+
+*----------------------------
+*Power Switch subcircuit
+*connections  |nSp  = Switch positive terminal
+*             | |nSn  = Switch negative terminal
+*             | | |nVcp = Control/gate terminal
+*             | | |
+.SUBCKT power_sw nSp nSn nVcp
+S1 nSp nDb nVcp 0 bidir_sw
+Dblock nDb nSn d_switch
+Dbody nSn nSp d_switch
+.model bidir_sw SW(RON=0.001)
+.model d_switch D()
+.ENDS
+
+*----------------------------
+*PWM Generator subcircuit
+*connections  |nPin  = Duty cycle control input (-1 to +1)
+*             | |nPout = PWM output (0 or 1)
+*             | | |fs   = Switching frequency Hz (default 10kHz)
+*             | | |
+.SUBCKT PWMtri nPin nPout fs=10000
+Vtri nPtri 0 PULSE(-1 1 0 {0.5/fs} {0.5/fs} 0 {1/fs})
+Bout nPout 0 V = ( V(nPin) > V(nPtri) ) ? 1.0 : 0.0
+.ENDS
+*----------------------------
+*Electro-Magnetic Transformer 
+*Named inkicad as Transformer1 in Spice library
+*pins 1 2 3 4 
+.SUBCKT xfmer np np0 ns ns0 Np =1 Ns =1 C = 100uF
+xGYp np np0 n1 n10 gy N={Np}
+xGYs n2 n10 ns ns0 gy N={Ns}
+*if Vc<fsat then {Cper} else {reducing Cper}
+Cper n1 n2 c = '(v(n1,n2) < {5}) ? {C} : {(0.99*C*exp(-10*(v(n1,n2))))+0.01*C}'
+.ENDS
+*----------------------------
+*Gyrator subcircuit
+*pins 1 2 3 4
+*----------------------------
+*GY
+*       pins 1 2 3 4
+.SUBCKT gy np np0 ns ns0 N=1
+rp1   np     nrp    0.01
+rs1   ns     nrs    0.01
+rpmid nrp    nrpmid 0.5
+rsmid nrs    nrsmid 0.5
+BGp1  nrpmid npmid  V=(-1)*i(vs1)*{N}
+BGs1  nrsmid nsmid  V=i(vp1)*{N}
+vp1   npmid  np0    0
+vs1   nsmid  ns0    0
+BHs1  nrs    nrsmid I=(-1)*v(nrp,np0)/{N}
+BHp1  nrp    nrpmid I=v(nrs,ns0)/{N}
+
+*below commented lines will be to 
+*1% permeance value for adding leakage effets
+*Clp  nrp    np0    100nF
+*Cls  nrs    ns0    100nF
+rsp1  nrp    nrs    100e6
+rsm1  np0    ns0    100e6
+.ENDS
+*----------------------------
+*FORWARD Xfm
+*pins 1 2 3 4 5 6 
+
+.SUBCKT xfmfor np np0 nd nd0 ns ns0 Np=1 Nd=1 Ns=1 C=100uF
+xGYp np np0 n1 n10 gy N={Np}
+xGYd n1 n30 nd nd0 gy N={Nd}
+xGYs n2 n10 ns ns0 gy N={Ns}
+*IF Vc< fsatTHEN {Cper} ELSE{reducing Cper}
+Cper n30 n2 c = '(v(n30)-v(n2) < {5})? {C} : {0.99*C*exp(-10*(v(n30)-v(n2)))+0.01*C}'
+.ENDS
+*

@@ -1,0 +1,11 @@
+Version 0
+SymbolType BLOCK
+LINE Normal -32 -32 0 0
+LINE Normal 0 0 32 -32
+RECTANGLE Normal -32 -32 32 32
+PIN 0 -32 NONE 8
+PINATTR PinName PWR+
+PINATTR SpiceOrder 1
+PIN 0 32 NONE 8
+PINATTR PinName PWR-
+PINATTR SpiceOrder 2

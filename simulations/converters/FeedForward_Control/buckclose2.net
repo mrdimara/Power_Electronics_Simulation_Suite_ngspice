@@ -1,0 +1,16 @@
+.title KiCad schematic
+.include "/Users/manindersingh/Documents/GitHub/ngspice/learnings/FeedForward_Control/edt01.sub"
+.model __D1 D
+L1 /B /C 10m
+C1 /C 0 100u
+R1 /C 0 5
+D1 0 /B __D1
+XxSW1 /A /B /PWM_o power_sw
+XxPWM1 /c2 /PWM_o PWMtri
+V1 /A 0 DC 12 
+XSUMR1 /r /C Net-_PID1-IN_ sum
+V3 /r 0 PULSE( 5 6 0 0 0 5m 10m ) 
+XPID1 Net-_PID1-IN_ /c1 PID
+Xadd1 /c1 Net-_Vd1-Pad1_ /c2 add
+Vd1 Net-_Vd1-Pad1_ 0 DC -0.05 
+.end

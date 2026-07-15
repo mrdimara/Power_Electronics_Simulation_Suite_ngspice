@@ -1,0 +1,14 @@
+*Simulation of PC Cell
+.tran 0.01ms 5ms uic
+.include pv.net
+.control
+run
+alter R1=0.3
+run
+alter R1=0.6
+run
+setplot tran1
+* Plot all together
+plot i(V1) vs V(/nV0) tran2.i(V1) vs V(/nV0) tran3.i(V1) vs V(/nV0)
+
+.endc

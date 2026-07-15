@@ -1,0 +1,15 @@
+.title KiCad schematic
+.include "/Users/manindersingh/Documents/ngspice/learnings/rectifier/non-idealities/rectifier.sub"
+.save all
+XD3 /Rs- 0 diode_power
+XD2 /_NO_NET_ /Vin- diode_power
+L2 /_NO_NET_ /L2- 1u
+R1 /L2- 0 25
+Cf1 /L2- 0 1000u
+XD4 /Vin- 0 diode_power
+Rs1 /L- /Rs- 0.1
+L1 /Vin+ /L- 0.01u
+XD1 /Rs- /_NO_NET_ diode_power
+Vin1 /Vin+ /Vin- DC 0 SIN( 0 325 50 -50ms 0 0 ) AC 1  
+.end
+

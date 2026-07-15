@@ -1,0 +1,31 @@
+*Library of Custom Components 
+*******************************
+*Diodes
+*******************************
+.model Def D()
+*
+*------------------------------
+*
+*PV Source
+*------------------------------
+*connections     |+ve terminal 
+*                | |-ve terminal
+*                | |
+.SUBCKT PVSource 1 2 Isc=1 Vscale=50
+
+*Setting Isc value 
+VIsc nsc 0 DC {Isc}
+
+*Setting no. of devices in series 
+Vnum ndev 0 DC {Vscale}
+
+*Using PV model eqn. in B source (nVt)= 0.05 -- n = 2 and Vt = 0.0025
+*current should get limited to 0 and not allow sink current into PV 
+
+BPV 1 2 I = { 
+    (-( V(nsc) - 1e-7*(exp(V(1,2)/0.05/V(ndev)) - 1) ) > 0) ? 
+    ( V(nsc) - 1e-7*(exp(V(1,2)/0.05/V(ndev)) - 1) ) : 0 
+}
+
+.ENDS
+*------------------------------

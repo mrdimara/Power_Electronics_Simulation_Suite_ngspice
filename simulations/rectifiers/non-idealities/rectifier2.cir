@@ -1,0 +1,10 @@
+*Rectifier with non idealities , Power Diode Simulation
+.tran 10us 100ms
+.include Rectifier1.net
+*Control Command
+.control
+run
+listing
+display
+plot all
+.endc

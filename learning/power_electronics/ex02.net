@@ -1,0 +1,6 @@
+* Netlist 
+V1 a 0 sin(0 100 50 0 0)
+xD1 a c pwrdiode
+R1 c b 10
+R2 b 0 10
+.include ex02.sub

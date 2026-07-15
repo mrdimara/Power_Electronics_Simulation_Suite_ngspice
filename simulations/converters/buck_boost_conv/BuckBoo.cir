@@ -1,0 +1,14 @@
+*Buck - Boost Converetr Simulation
+.tran 1us 100ms
+.include BuckBoo.net
+*Control
+.control
+run
+listing
+display
+set gnuplot_terminal = qt
+gnuplot I_L i(L1)
+gnuplot V&I_L v(L1) i(L1)
+gnuplot I_Vin -i(V1) avg(-i(V1))
+gnuplot PWM_out v(/PWM_out)
+.endc

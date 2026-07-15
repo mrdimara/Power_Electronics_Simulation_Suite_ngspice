@@ -1,0 +1,18 @@
+*title KiCad schematic - Buck Converter Closed Loop
+.include "./edt01.sub"
+
+.model __D1 D
+
+C1     /C       0        100u
+R1     /C       0        5
+L1     /B       /C       10m
+D1     0        /B       __D1
+XxSW1  /A       /B       /PWM_o   power_sw
+V3     /r       0        PULSE(5 6 0 0 0 5m 10m)
+V1     /A       0        DC 12
+XxPWM1 /c       /PWM_o   PWMtri fs=10000
+XSUMR1 /r       /C       Net-_PID1-IN_  sum
+XPID1  Net-_PID1-IN_  /c  PID  params: kp=1 ki=100 kd=0 lsat=-10 usat=10
+.tran 0.1us 30ms
+.print tran V(/A) V(/B) V(/C) V(/r) I(L1)
+.end

@@ -1,0 +1,9 @@
+.title KiCad schematic
+.include "/Users/manindersingh/Documents/ngspice/learnings/pvsim/subckt_PV_symbol_simulation/pv.sub"
+.save all
+.probe alli
+.probe p(XxPV1)
+.probe p(V1)
+XxPV1 /nV1 0 PVSource
+V1 /nV1 0 DC 0 SIN( 0 48 50 0 0 0 ) AC 1  
+.end

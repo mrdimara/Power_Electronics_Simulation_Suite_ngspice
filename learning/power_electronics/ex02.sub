@@ -1,0 +1,10 @@
+* Model 
+.model dmodel D()
+
+*SUB Circuit
+.SUBCKT pwrdiode A K
+DX A K dmod
+RX A M 10k
+CX M K 0.01uF
+.model dmod D(Rs = 0.01,CJ0 = 100pF)
+.ENDS

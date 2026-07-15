@@ -1,0 +1,13 @@
+*Buck Simulation
+.tran 1us 100ms uic
+.include buck.net
+.control
+run
+listing
+display
+plot i(L1)
+plot v(B) i(L1)*100
+plot -i(V1) avg(-i(V1))
+plot v(C) v(A)
+plot v(PWM_o)
+.endc

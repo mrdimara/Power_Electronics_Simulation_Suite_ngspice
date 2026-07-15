@@ -1,0 +1,13 @@
+.title KiCad schematic
+.include "./rectifier.sub"
+XD2 /A /Vin- diode_power
+XD4 /Vin- unconnected-_D4-A-Pad2_ diode_power
+Cf1 /A 0 1000u
+R0 /A 0 25
+Rs1 /Vin+ /B 0.1
+Vin1 /Vin+ /Vin- DC 0 SIN( 0 325 50 0 0 0 ) AC 1  
+XD1 /A /B diode_power
+XD3 /B 0 diode_power
+.tran 1ms 50ms
+.plot tran V(/A) V(/B) V(/Vin+) V(/Vin-)
+.end

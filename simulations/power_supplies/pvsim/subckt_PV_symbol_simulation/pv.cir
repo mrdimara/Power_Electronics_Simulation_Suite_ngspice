@@ -1,0 +1,11 @@
+*PV Source Subcircuit Symbol Simulation
+.tran 0.01ms 5ms uic
+.include pv.net
+.control
+run
+plot i(V1) vs v(/nV1) v(/nV1)*i(V1)/40 vs v(/nV1)
+* Optional: power curve (P-V)
+*plot -v(/nV1)*i(V1) vs v(/nV1)
+set color0 = white
+set color1 = black
+.endc

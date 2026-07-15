@@ -1,0 +1,212 @@
+{
+  "main": {
+    "id": "b722aae979c253e1",
+    "type": "split",
+    "children": [
+      {
+        "id": "d11570b0712da840",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "5c1251007de98cb7",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f0194233c94867f7",
+    "type": "split",
+    "children": [
+      {
+        "id": "d4604f0eb6b54af1",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "ea4c4e4b114df352",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "061ef7646d8c980c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "d880e0a1e9db454f",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "50c01919a48efd7e",
+    "type": "split",
+    "children": [
+      {
+        "id": "ea518077caaa3f7e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "72f3daa1344660de",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "87472797bd68ea33",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "0358910cdc949a8e",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "ec6a31556a446466",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "31796ce47cc084a4",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "ea4c4e4b114df352",
+  "lastOpenFiles": [
+    "learning/power_electronics/ex02.sub",
+    "learning/power_electronics/ex02.net",
+    "learning/power_electronics/ex02.cir",
+    "simulations/rectifiers/non-idealities/rectifier2.cir",
+    "simulations/rectifiers/non-idealities/~Rectifier.kicad_pro.lck",
+    "simulations/rectifiers/non-idealities/rectifier.sub",
+    "simulations/rectifiers/non-idealities/Rectifier1.net",
+    "simulations/rectifiers/non-idealities/Rectifier.kicad_prl",
+    "simulations/rectifiers/non-idealities/plot_rectifier_non_ideal.png",
+    "simulations/rectifiers/non-idealities/Rectifier.net",
+    "simulations/rectifiers/non-idealities/Rectifier.kicad_sch",
+    "simulations/rectifiers/non-idealities/Rectifier.kicad_pro",
+    "CONTRIBUTING.md",
+    "pcb_parasitics/extraction_flow.md",
+    "docs/THEORY_NOTES.md",
+    "docs/MODEL_LIBRARY.md",
+    "docs/SIMULATION_GUIDE.md",
+    "docs/TECHNICAL_REPORT.md",
+    "archive/original_layout/docs/REPOSITORY_AUDIT.md",
+    "simulations/converters/Forward_Converter/FWD_CONV_Lossy/i(vid).png",
+    "simulations/converters/Forward_Converter/FWD_CONV_Lossy/i(l1) v(o,r) i(vis).png",
+    "simulations/converters/Forward_Converter/FWD_CONV_Lossless/i(l1) v(o,r) i(vis)_lossless.png",
+    "simulations/converters/Forward_Converter/FWD_CONV_Lossless/i(Vid1)_lossless.svg",
+    "simulations/rectifier/non-idealities/plot_rectifier_non_ideal.png",
+    "simulations/converters/PushPull_Converters/v(o,r).png",
+    "simulations/converters/PushPull_Converters/v(o).png",
+    "simulations/converters/PushPull_Converters/v(g1,g2,g3,g4).png",
+    "simulations/converters/PushPull_Converters/i(l1).png",
+    "archive/original_layout/README.md",
+    "docs/REPOSITORY_AUDIT.md"
+  ]
+}

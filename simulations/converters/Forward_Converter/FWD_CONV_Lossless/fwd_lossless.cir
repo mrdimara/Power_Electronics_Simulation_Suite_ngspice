@@ -1,0 +1,13 @@
+*Forward Conv - Lossless Simulation
+.option retol=0.01 abstol =0.01
+.tran 0.1us 10ms uic
+.include Fwd_lossless.net
+*Control
+.control
+run
+listing
+display
+set gnuplot_terminal = qt
+gnuplot fwd_lossless i(L1) v(/o,/r) i(Vis1)
+gnuplot fwd_lossless_current i(Vid1)
+.endc

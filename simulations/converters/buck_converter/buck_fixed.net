@@ -1,0 +1,14 @@
+.title KiCad schematic
+.include "./edt01.sub"
+.model D1 D (IS=1e-15 RS=0.1 N=1 BV=100 IBV=1e-3 CJO=1p VJ=0.5 TT=1n)
+XxPWM1 Net-_V2-Pad1_ /PWM_o PWMtri fs=10000
+V1 /A 0 DC 12
+C1 /C 0 100u
+R1 /C 0 100
+XxSW1 /A /B /PWM_o power_sw
+V2 Net-_V2-Pad1_ 0 DC 0.5
+D1 0 /B D1
+L1 /B /C 10m
+.tran 0.1us 30ms
+.print tran V(/A) V(/B) V(/C) I(L1)
+.end

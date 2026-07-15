@@ -1,0 +1,16 @@
+*Simulation for flyback converter
+*By Maninder Singh
+*Created on 17th June 2024
+.option reltol = 0.2 abstol = 0.2
+.tran 0.1us 5ms uic
+.include FlyBavk.net
+.control
+run
+set gnuplot_terminal qt
+set color0 = white
+set color1 = black
+gnuplot plot1 v(/o,/r) 
+gnuplot plot2 i(Vip1) i(Vis1)
+gnuplot plot2.1 Vip1 Vis1
+gnuplot plot3 v(xfmer1.n1,xfmer1.n2)
+.endc 

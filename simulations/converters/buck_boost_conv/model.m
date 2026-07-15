@@ -1,0 +1,23 @@
+function xdot = model(x, t, params)
+% BUCK-BOOST CONVERTER MODEL
+
+pkg load signal
+
+il = x(1);
+vc = x(2);
+
+Vin = params(1);
+L   = params(2);
+C   = params(3);
+Ro  = params(4);
+fs  = params(5);
+d   = params(6);
+
+u = pwm(fs, d, t);
+
+ildot = (Vin*u - vc*(1-u)) / L;
+vcdot = (1-u)*il/C - vc/Ro/C;
+
+xdot = [ildot; vcdot];
+
+endfunction

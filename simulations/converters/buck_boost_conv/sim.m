@@ -1,0 +1,67 @@
+% SIM.M - Buck-Boost Converter Simulation
+clear
+clc
+
+pkg load signal
+
+% ── Parameters ────────────────────────────────────────────────────────
+Vin = 12;
+L   = 10e-3;
+C   = 100e-6;
+Ro  = 10;
+fs  = 10e3;
+d   = 0.75;
+
+params = [Vin, L, C, Ro, fs, d];
+
+% ── Initial Conditions ────────────────────────────────────────────────
+x0 = [0; 0];
+
+% ── Time Vector ───────────────────────────────────────────────────────
+t_start = 0;
+t_end   = 60e-3;
+dt      = 1e-6;
+t       = t_start : dt : t_end;
+
+% ── ODE Solver ────────────────────────────────────────────────────────
+options = odeset('MaxStep', dt, 'RelTol', 1e-6, 'AbsTol', 1e-9);
+
+[t_out, x_out] = ode45(@(t,x) model(x, t, params), t, x0, options);
+
+% ── Extract States ────────────────────────────────────────────────────
+il = x_out(:, 1);
+vc = x_out(:, 2);
+
+
+% ── Plot ──────────────────────────────────────────────────────────────
+figure(1)
+
+subplot(3,1,1)
+plot(t_out*1e3, il, 'b', 'LineWidth', 1.2)
+xlabel('Time (ms)')
+ylabel('I_L (A)')
+title('Inductor Current')
+grid on
+
+subplot(3,1,2)
+plot(t_out*1e3, vc, 'r', 'LineWidth', 1.2)
+hold on
+
+xlabel('Time (ms)')
+ylabel('V_C (V)')
+title(sprintf('Output Voltage'))
+grid on
+
+subplot(3,1,3)
+pwm_sig = zeros(size(t));
+for i = 1:length(t)
+  pwm_sig(i) = pwm(fs, d, t(i));
+end
+plot(t*1e3, pwm_sig, 'g', 'LineWidth', 1.2)
+xlabel('Time (ms)')
+ylabel('PWM')
+title(sprintf('PWM Signal (d = %.2f)', d))
+ylim([-0.2 1.2])
+grid on
+
+sgtitle('Buck-Boost Converter (Vin=12V, d=0.75, fs=10kHz)')

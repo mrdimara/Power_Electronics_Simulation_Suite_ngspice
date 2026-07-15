@@ -1,0 +1,12 @@
+.title KiCad schematic
+.include "/Users/manindersingh/Documents/ngspice/learnings/Converters/boost_converter/edt01.sub"
+.model __D1 D
+XxPWM1 Net-_V2-Pad1_ /PWM_out PWMtri
+V2 Net-_V2-Pad1_ 0 DC 0.5 
+D1 /L1_neg /R_pos __D1
+C1 /R_pos 0 100u
+R1 /R_pos 0 100
+V1 /Vin_pos 0 DC 12 
+L1 /Vin_pos /L1_neg 5m
+XxSW1 /L1_neg 0 /PWM_out power_sw
+.end

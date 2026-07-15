@@ -1,0 +1,23 @@
+.title KiCad schematic
+.include "/Users/manindersingh/Documents/ngspice/learnings/Converters/Buck Converter/edt01.sub"
+.include "/Users/manindersingh/Documents/ngspice/learnings/Converters/buck_converter/edt01.sub"
+.include "/Users/manindersingh/Documents/ngspice/learnings/Forward_Converter/FWD_CONV_Lossy/edt01.sub"
+.model __D1 D
+.model __D2 D
+.model __D3 D
+Xfmer1 /a Net-_Vid1-Pad1_ /s /r xfmer
+D1 /r /p __D1
+Vis1 /s Net-_D2-A_ DC 0 
+C1 /o /r 100u
+R1 /o /r 10
+D2 Net-_D2-A_ /p __D2
+L1 /p /o 10m
+D3 Net-_D3-A_ /a __D3
+R2 Net-_D3-A_ Net-_R2-Pad2_ 800
+Vid1 Net-_Vid1-Pad1_ Net-_R2-Pad2_ DC 0 
+XxSW1 Net-_Vid1-Pad1_ Net-_Viq1-Pad1_ /g power_sw
+V2 Net-_V2-Pad1_ 0 DC -0.1 
+Vin1 /a 0 DC 15 
+XxPWM1 Net-_V2-Pad1_ /g PWMtri
+Viq1 Net-_Viq1-Pad1_ 0 DC 0 
+.end

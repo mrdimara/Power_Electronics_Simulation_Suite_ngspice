@@ -1,0 +1,5 @@
+*Title : Simple Attenuate
+*Netlist
+V1 a 0 100v
+R1 a b 20
+R2 b 0 30

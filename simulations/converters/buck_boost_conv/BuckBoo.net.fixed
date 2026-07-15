@@ -1,0 +1,12 @@
+.title KiCad schematic
+.include "/Users/manindersingh/Documents/ngspice/learnings/Converters/buck_converter/edt01.sub"
+.model __D1 D
+XxPWM1 Net-_V2-Pad1_ /PWM_out PWMtri
+L1 0 /L_in 100m
+XxSW1 /In /L_in /PWM_out power_sw
+D1 /R_in /L_in __D1
+C1 /R_in 0 100u
+R1 /R_in 0 100
+V1 /In 0 DC 12 
+V2 Net-_V2-Pad1_ 0 DC 0.5 
+.end

@@ -1,0 +1,124 @@
+# Requirements for NGSpice Power Electronics Simulation Suite
+
+## Core Dependencies
+- NGSpice (latest stable release from http://ngspice.sourceforge.net/)
+  - Required for circuit simulation
+  - Version 3.5 or higher recommended
+
+## Optional but Recommended Tools
+- MATLAB or GNU Octave (for post-processing scripts)
+  - Used for waveform analysis, FFT calculations, and parameter extraction
+  - Signal Processing Toolbox recommended for advanced analysis
+
+- KiCad EDA (for schematic capture and PCB layout)
+  - Used for PCB design and parasitic extraction preparation
+  - Version 6.0 or newer
+
+- Ansys Q3D Extractor or equivalent (for parasitic extraction)
+  - Used for accurate PCB and package parasitic modeling
+  - Alternative: OpenEMS, CST Studio Suite, or other 3D EM solvers
+
+- Gnuplot or matplotlib (for plotting simulation results)
+  - Alternative visualization tools
+
+## Python Packages (for analysis scripts)
+The following Python packages are used in various analysis scripts:
+- numpy>=1.20.0
+- scipy>=1.7.0
+- matplotlib>=3.3.0
+- pandas>=1.3.0
+- scikit-learn>=0.24.0 (for some optimization routines)
+
+## Version Control
+- Git (for repository management)
+- Git LFS (for large binary files, if used)
+
+## Documentation
+- Doxygen (for generating documentation from source comments)
+- Sphinx (optional, for advanced documentation generation)
+- Pandoc (for document format conversion)
+
+## Installation Instructions
+
+### NGSpice Installation
+#### On Ubuntu/Debian:
+```bash
+sudo apt-get update
+sudo apt-get install gcc g++ flex bison libx11-dev libxpm-dev \
+                    libxt-dev libxaw7-dev libreadline-dev \
+                    libngspice0-dev
+```
+
+#### On macOS (using Homebrew):
+```bash
+brew update
+brew install ngspice
+```
+
+#### From Source:
+```bash
+wget https://sourceforge.net/projects/ngspice/files/ng-spice-rework/xx.x/ngspice-xx.x.tar.gz
+tar -xzf ngspice-xx.x.tar.gz
+cd ngspice-xx.x
+./configure --with-ngshared --enable-xspice --enable-cider
+make
+sudo make install
+```
+
+### Python Dependencies
+```bash
+pip install numpy scipy matplotlib pandas scikit-learn
+```
+
+### KiCad Installation
+#### Ubuntu/Debian:
+```bash
+sudo add-apt-repository ppa:kicad/kicad-6.0-releases
+sudo apt update
+sudo apt install kicad
+```
+
+#### macOS:
+```bash
+brew install --cask kicad
+```
+
+## Testing the Installation
+
+After installation, verify NGSpice works:
+```bash
+ngspice -v
+```
+
+Run a simple test circuit:
+```bash
+cd examples/basic/
+ngspice -b simple_rc.cir
+```
+
+## Troubleshooting
+
+### Common Issues
+1. **Missing libraries during NGSpice compilation**:
+   - Ensure development packages for X11 and readline are installed
+
+2. **Python module not found**:
+   - Install packages using pip as shown above
+   - Ensure using correct Python version (3.7+ recommended)
+
+3. **KiCad library path issues**:
+   - Configure KiCad to use the symbol and footprint libraries in this repository
+   - Set environment variables KICAD_SYMBOL_DIR and KICAD_FOOTPRINT_DIR
+
+4. **Permission issues**:
+   - Ensure you have write access to simulation directories
+   - Run simulations from your home directory or a location with proper permissions
+
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Citations
+If you use this simulation suite in academic work, please cite using the CITATION.cff file.
+
+## Contributing
+Please see CONTRIBUTING.md for guidelines on contributing to this project.

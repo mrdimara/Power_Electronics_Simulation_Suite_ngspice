@@ -1,0 +1,10 @@
+*Rectifier 3 Phase with non idealities , Power Diode Simulation
+.tran 10us 100ms
+.include Rectifier_3P.net
+*Control Command
+.control
+run
+listing
+display
+plot all
+.endc

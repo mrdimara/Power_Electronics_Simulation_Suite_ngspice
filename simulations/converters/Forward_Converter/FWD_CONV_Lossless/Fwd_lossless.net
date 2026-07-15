@@ -1,0 +1,20 @@
+.title KiCad schematic
+.include edt01.sub
+.model __D2 D
+.model __D1 D
+.model __D3 D
+D2 Net-_D2-A_ /p __D2
+L1 /p /o 10m
+R1 /o /r 10
+C1 /o /r 100u
+D1 /r /p __D1
+Vis1 /s Net-_D2-A_ DC 0 
+Xfmfor1 /a /q /a Net-_D3-K_ /s /r xfmfor PARAMS: Np=10 Nd=10 Ns=20 C=150uF
+Viq1 Net-_Viq1-Pad1_ 0 DC 0 
+D3 Net-_D3-A_ Net-_D3-K_ __D3
+Vid1 0 Net-_D3-A_ DC 0 
+Vin1 /a 0 DC 15 
+XxPWM1 Net-_V2-Pad1_ /g PWMtri
+V2 Net-_V2-Pad1_ 0 DC -0.1 
+XxSW1 /q Net-_Viq1-Pad1_ /g power_sw
+.end

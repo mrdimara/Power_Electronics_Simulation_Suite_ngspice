@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: "Contributors"
+    "
+    given-names: "NGSpice Power Electronics Simulation Suite"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+title: "NGSpice Power Electronics Simulation Suite: Non-Ideal Device Modelling, Switching Analysis, and Parasitic-Aware Validation"
+version: 1.0.0
+date-released: 2026-07-14
+url: "https://github.com/manindersingh/ngspice"
+license: "MIT"
+keywords:
+  - "SPICE simulation"
+  - "power electronics"
+  - "DC-DC converters"
+  - "parasitic extraction"
+  - "NGSpice"
+repository-code: "https://github.com/manindersingh/ngspice"

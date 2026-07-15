@@ -1,0 +1,48 @@
+*Library of custom components
+*****************************
+
+*****************************
+*Diodes
+*****************************
+.model Def D()
+
+*----------------------------
+*Diode macro model
+*connections  |Anode
+*             | |Cathode
+*             | |
+.SUBCKT diode_power 101 102
+DX 101 102 def_power_diode
+Rsh 101 103 10000
+Csh 103 102 0.01uF
+.model def_power_diode D(Rs=0.01 CJ0=100pF)
+.ENDS
+
+*----------------------------
+*Switch model (standalone)
+.model switch SW(RON=0.001)
+
+*----------------------------
+*Power Switch subcircuit
+*connections  |nSp  = Switch positive terminal
+*             | |nSn  = Switch negative terminal
+*             | | |nVcp = Control/gate terminal
+*             | | |
+.SUBCKT power_sw nSp nSn nVcp
+S1 nSp nDb nVcp 0 bidir_sw
+Dblock nDb nSn d_switch
+Dbody nSn nSp d_switch
+.model bidir_sw SW(RON=0.001)
+.model d_switch D()
+.ENDS
+
+*----------------------------
+*PWM Generator subcircuit
+*connections  |nPin  = Duty cycle control input (-1 to +1)
+*             | |nPout = PWM output (0 or 1)
+*             | | |fs   = Switching frequency Hz (default 10kHz)
+*             | | |
+.SUBCKT PWMtri nPin nPout fs=10000
+Vtri nPtri 0 PULSE(-1 1 0 {0.5/fs} {0.5/fs} 0 {1/fs})
+Bout nPout 0 V = ( V(nPin) > V(nPtri) ) ? 1.0 : 0.0
+.ENDS

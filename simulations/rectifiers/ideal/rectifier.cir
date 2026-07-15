@@ -1,0 +1,10 @@
+*Simulation of Ideal Rectifier with Power Diode
+.tran 50us 100ms uic
+.include Rectifier_1.net
+*Control Command
+.control
+run
+listing
+display
+*plot all
+.endc

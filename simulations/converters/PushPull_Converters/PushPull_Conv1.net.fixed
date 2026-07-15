@@ -1,0 +1,37 @@
+.title KiCad schematic
+.include "/Users/manindersingh/Documents/GitHub/ngspice/learnings/Converters/PushPull_Converters/edt01.sub"
+.model __D1 D
+.model __D2 D
+.save all
+.probe alli
+.probe p(D1)
+.probe p(Vid1)
+.probe p(L1)
+.probe p(D2)
+.probe p(Vid2)
+.probe p(Xfmpush1)
+.probe p(C1)
+.probe p(R1)
+.probe p(XxSW2)
+.probe p(Viq1)
+.probe p(XxSW1)
+.probe p(Viq2)
+.probe p(Vc1)
+.probe p(XPWM_B1)
+.probe p(Vse1)
+D1 Net-_D1-A_ Net-_D1-K_ __D1
+Vid1 Net-_Vid1-Pad1_ Net-_D1-A_ DC 0 
+L1 Net-_D1-K_ /o 1m
+D2 Net-_D2-A_ Net-_D1-K_ __D2
+Vid2 Net-_Vid2-Pad1_ Net-_D2-A_ DC 0 
+Xfmpush1 Net-_Viq2-Pad1_ Net-_Vse1-Pad1_ Net-_Viq1-Pad1_ Net-_Vid1-Pad1_ /r1 Net-_Vid2-Pad1_ xfmpush Np=10 Ns=20 C=100uF
+C1 /o /r1 100u
+R1 /o /r1 10
+XxSW2 Net-_Viq1-Pad2_ 0 /g1 power_sw
+Viq1 Net-_Viq1-Pad1_ Net-_Viq1-Pad2_ DC 0 
+XxSW1 Net-_Viq2-Pad2_ 0 /g3 power_sw
+Viq2 Net-_Viq2-Pad1_ Net-_Viq2-Pad2_ DC 0 
+Vc1 Net-_Vc1-Pad1_ 0 DC 0.5 
+XPWM_B1 Net-_Vc1-Pad1_ /g1 /g2 /g3 /g4 PWMbridge fs=10k
+Vse1 Net-_Vse1-Pad1_ 0 DC 10 
+.end
