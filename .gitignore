@@ -10,3 +10,19 @@ learnings/rectifier/3Phase/.history/
 learnings/rectifier/ideal/.history/
 learnings/rectifier/ideal/Untitled/.history/
 learnings/rectifier/non-idealities/.history/
+
+# Ignore generated data and plot files
+*.data
+*.plt
+# Ignore CSV outputs (generatable)
+*.csv
+# Ignore result directories
+results/
+simulation_logs/
+simulation_logs_subset/
+# Ignore temporary files
+*.log
+*.out
+.DS_Store
+Thumbs.db
+
