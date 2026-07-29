@@ -1,0 +1,93 @@
+\documentclass[11pt]{article}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{cite}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+
+% Page margins
+\geometry{margin=1in}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={NGSpice-Based Power Electronics Simulation Suite: Non-Ideal Device Modelling, Switching Analysis, and Parasitic-Aware Validation},
+    pdfauthor={Maninder Singh},
+    pdfsubject={Power Electronics Simulation},
+    pdfkeywords={NGSpice, power electronics, simulation, parasitic extraction, modeling}
+}
+
+% Custom commands
+\newcommand{\repolink}[1]{\href{https://github.com/mrdimara/ngspice/blob/main/#1}{\texttt{\detokenize{#1}}}}
+\newcommand{\figref}[1]{Figure~\ref{fig:#1}}
+\newcommand{\secref}[1]{Section~\ref{sec:#1}}
+\newcommand{\tabref}[1]{Table~\ref{tab:#1}}
+
+\title{NgSpice-Based Power Electronics Simulation Suite:\\Non-Ideal Device Modelling, Switching Analysis, and Parasitic-Aware Validation}
+\author{Maninder Singh\\\textit{Electrical Engineering, IIT (ISM) Dhanbad}\\\\\href{https://github.com/mrdimara/ngspice}{https://github.com/mrdimara/ngspice}}
+\date{July 2026}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+This report presents a comprehensive NGSpice-based power electronics simulation suite developed for realistic converter modeling, switching analysis, and parasitic-aware circuit validation. The suite encompasses a wide range of power electronic systems including DC-DC converters, motor drives, renewable energy systems, and power supplies, enhanced with non-ideal component models and PCB parasitic extraction capabilities. A comparative analysis between NGspice simulations (incorporating parasitics extracted via Ansys Q3D Extractor) and experimental measurements obtained from a Keysight DSOX1204 oscilloscope via PyVISA-py demonstrates the framework's accuracy in predicting switching behavior, transient responses, and frequency-domain characteristics. The work addresses critical aspects of power electronics design including switching losses, parasitic effects, control loop stability, and thermal considerations. Two open issues are identified and documented: an ongoing convergence problem in a power supply board simulation due to suspected capacitor unit errors, and a methodological discrepancy in ringing energy calculation between simulated and practical analysis scripts. The simulation framework is released as open-source software to support education, research, and professional development in power electronics.
+\end{abstract}
+
+\newpage
+\tableofcontents
+\newpage
+\listoffigures
+\newpage
+\listoftables
+
+\section{Introduction}
+\label{sec:introduction}
+\input{sections/01_introduction.tex}
+
+\section{SPice Simulation Methodology}
+\label{sec:spice_methodology}
+\input{sections/02_spice_methodology.tex}
+
+\section{Power Electronics Circuit Modelling}
+\label{sec:circuit_modelling}
+\input{sections/03_circuit_modelling.tex}
+
+\section{Semiconductor and Passive Component Models}
+\label{sec:models}
+\input{sections/04_semiconductor_passive_models.tex}
+
+\section{PCB Parasitic Extraction Workflow}
+\label{sec:parasitics}
+\input{sections/05_pcb_parasitic_extraction.tex}
+
+\section{Simulation Results}
+\label{sec:results}
+\input{sections/06_simulation_results.tex}
+
+\section{Waveform Processing and Analysis}
+\label{sec:waveform_processing}
+\input{sections/07_waveform_processing.tex}
+
+\section{Limitations and Future Work}
+\label{sec:limitations}
+\input{sections/08_limitations_future_work.tex}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/09_conclusion.tex}
+
+\bibliographystyle{ieeetr}
+\bibliography{refs.bib}
+
+\end{document}

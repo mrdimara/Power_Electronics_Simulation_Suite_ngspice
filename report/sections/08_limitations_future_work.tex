@@ -1,0 +1,37 @@
+While the simulation framework presented in this work provides valuable insights into power electronics system behavior, several limitations exist that affect the accuracy, scope, and applicability of the results. This chapter outlines these limitations and proposes directions for future work to address them.
+
+\subsection{Known Limitations}
+\subsubsection{Model Accuracy and Completeness}
+Despite efforts to employ accurate component models, several limitations persist:
+\begin{itemize}
+    \item Parameter extraction uncertainty remains significant for some devices and operating conditions.
+    \item Temperature-dependent behavior is only partially captured in the available models.
+    \item Long-term degradation and aging effects are not represented explicitly.
+    \item Radiation and package-level effects are outside the current scope.
+\end{itemize}
+
+\subsubsection{Simulation Constraints}
+Practical limitations affect what can be simulated and how:
+\begin{itemize}
+    \item High-fidelity transient simulations can require significant computational resources.
+    \item Multi-timescale problems remain challenging due to the separation between fast switching and slow thermal dynamics.
+    \item Convergence issues can occur in circuits with tight feedback or strong nonlinearities.
+    \item Numerical precision may become limiting in circuits with very large or very small dynamic ranges.
+\end{itemize}
+
+\subsubsection{Measurement and Validation Challenges}
+Validation against hardware measurements faces several obstacles:
+\begin{itemize}
+    \item Probe loading and ground-loop effects can distort measured waveforms.
+    \item Finite bandwidth and timing skew limit the accuracy of high-speed measurements.
+    \item Thermal and environmental conditions can change the operating point during testing.
+\end{itemize}
+
+\subsection{Proposed Future Work}
+Addressing the limitations above requires both short-term improvements and longer-term research directions.
+\begin{itemize}
+    \item Expand model libraries with newer semiconductor devices and temperature-dependent magnetic models.
+    \item Improve the parasitic extraction workflow with more automated validation and better frequency-dependent models.
+    \item Add more advanced analysis tools for sensitivity, uncertainty quantification, and electrothermal coupling.
+    \item Increase the number of hardware validation cases and broaden the measurement coverage.
+\end{itemize}

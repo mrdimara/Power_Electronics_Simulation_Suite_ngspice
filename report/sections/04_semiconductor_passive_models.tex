@@ -1,0 +1,223 @@
+This chapter details the semiconductor and passive component models employed in the simulation suite, emphasizing the non-ideal characteristics that significantly impact power electronics performance. Accurate modeling of these components is essential for predicting efficiency, thermal behavior, electromagnetic compatibility (EMC), and dynamic response.
+
+\subsection{Diode Models}
+Diodes in power electronics serve multiple roles including rectification, freewheeling, clamping, and electrostatic discharge (ESD) protection. Beyond the ideal switch model, practical diodes exhibit several important non-ideal characteristics:
+
+\subsubsection{Reverse Recovery Characteristics}
+Perhaps the most critical non-ideal property for switching applications:
+\begin{itemize}
+    \item \textbf{Reverse Recovery Time ($t_{rr}$)}: Time for reverse current to decay to a specified value after forward current interruption
+    \item \textbf{Reverse Recovery Charge ($Q_{rr}$)}: Total charge transported in reverse direction during recovery
+    \item \textbf{Softness Factor}: Ratio of tangential to peak reverse current during recovery
+    \item \textbf{Peak Reverse Current ($I_{RRM}$)}: Maximum reverse current reached during recovery
+\end{itemize}
+These parameters significantly influence switching losses in associated switches and can cause electromagnetic interference (EMI) due to high di/dt.
+
+\subsubsection{Voltage-Current Characteristics}
+\begin{itemize}
+    \item \textbf{Forward Voltage Drop ($V_F$)}: Not constant but varies with current and temperature
+    \item \textbf{Reverse Leakage Current ($I_R$)}: Increases significantly with temperature and reverse voltage
+    \item \textbf{Breakdown Characteristics}: Sharpness of breakdown and avalanche energy capability
+\end{itemize}
+
+\subsubsection{Capacitive Effects}
+\begin{itemize}
+    \item \textbf{Zero-Bias Junction Capacitance ($C_J$)}: Voltage-dependent capacitance affecting switching speed
+    \item \textbf{Package Capacitance}: Lead frame and encapsulation contributions
+\end{itemize}
+
+\subsubsection{Temperature Dependence}
+Most diode parameters exhibit significant temperature variation:
+\begin{itemize}
+    \item Forward voltage decreases with increasing temperature (~-2mV/°C for Si)
+    \item Reverse leakage approximately doubles every 10°C rise
+    \item Reverse recovery characteristics change with temperature
+\end{itemize}
+
+\subsubsection{Model Implementation}
+The simulation suite employs various diode models based on application requirements:
+\begin{itemize}
+    \item \textbf{Shockley Diode Equation}: For basic rectification applications where switching losses are secondary
+    \item \textbf{Recovery Model (Level 1)}: Includes basic reverse recovery parameters
+    \item \textbf{Enhanced Recovery Model (Level 2)}: More sophisticated charge control formulation
+    \item \textbf{Physics-Based Models}: For advanced devices like SiC and GaN Schottky barriers
+\end{itemize}
+
+Example models from the library include:
+\begin{itemize}
+    \item \textit{Standard Recovery Diodes}: 1N5408, 1N5406 (general purpose rectification)
+    \item \textit{Fast Recovery Diodes (FRD)}: MUR1560, UF5408 (switching applications)
+    \item \item \textit{Schottky Diodes}: 1N5819, SB560 (low forward voltage, high speed)
+    \item \textit{Superfast Recovery Diodes}: ES1D, MURS120T3 (balanced V<sub>F</sub> and t<sub>rr</sub>)
+    \item \textit{Ultralfast Recovery Diodes}: MURH840CT (very low Q<sub>rr</sub>)
+    \item \textit{Zener Diodes}: For voltage regulation and reference applications
+    \item \item \textit{Transient Voltage Suppression (TVS)}: For overload protection
+\end{itemize}
+
+Where possible, models are validated against manufacturer datasheets for forward voltage, reverse recovery, and leakage current specifications.
+
+\subsection{Transistor Models}
+Bipolar Junction Transistors (BJTs) and Metal-Oxide-Semiconductor Field-Effect Transistors (MOSFETs) form the backbone of active switching elements in power electronics. Insulated-Gate Bipolar Transistors (IGBTs) combine characteristics of both for high-voltage applications.
+
+\subsubsection{BJT Models}
+Key non-ideal characteristics include:
+\begin{itemize}
+    \item \textbf{DC Current Gain ($\beta$ or $h_{FE}$)}: Variations with collector current, temperature, and frequency
+    \item \item \textbf{Saturation Voltage ($V_{CE(sat)}$)}: Not zero but increases with collector current
+    \item \bf{Turn-On and Turn-Off Times}: Influenced by base charge storage and removal
+    \item \textbf{Second Breakdown}: Thermal instability limitation at high voltages and currents
+    \item \textbf{Early Effect}: Collector current dependence on collector-base voltage
+    \item \textbf{Parasitic Capacitances}: $C_{je}$, $C_{jc}$, and $C_{cs}$ affecting frequency response
+\end{itemize}
+
+\subsubsection{MOSFET Models}
+Critical parameters for power MOSFET modeling:
+\begin{itemize}
+    \item \textbf{Threshold Voltage ($V_{GS(th)}$)}: Gate voltage required to initiate conduction
+    \item \textbf{On-Resistance ($R_{DS(on)}$)}: Primary conduction loss determinant, varies with temperature and gate voltage
+    \item \textbf{Breakdown Voltage ($BV_{DSS}$)}: Maximum drain-source voltage in blocking state
+    \item \textbf{Gate Charge ($Q_G$)}: Total charge required to turn device on (affects drive losses)
+    \item \textbf{Output Capacitance ($C_{oss}$)}: Influences Turn-off losses and resonance with parasitic inductance
+    \item \textbf{Reverse Transfer Capacitance ($C_{rss}$)}: Affects switching stability and Miller effect
+    \item \textbf{Body Diode Characteristics}: Forward voltage and reverse recovery of intrinsic diode
+    \item \textbf{Temperature Dependence}: Strong positive temperature coefficient of $R_{DS(on)}$ enables parallel operation
+\end{itemize}
+
+\subsubsection{IGBT Models}
+Combining MOSFET gate characteristics with bipolar conduction:
+\begin{itemize}
+    \item \textbf{Threshold Voltage ($V_{GE(th)}$)}: Similar to MOSFET threshold
+    \item \textbf{Collector-Emitter Saturation Voltage ($V_{CE(sat)}$)}: Typically higher than MOSFETs but lower than BJTs
+    \item \textbf{Turn-On and Turn-Off Times}: Influenced by carrier storage and removal in base region
+    \item \textbf{Tail Current}: Delayed current decay during turn-off due to minority carrier recombination
+    \item \textbf{Latchup Susceptibility}: Potential for destructive thermal runaway under certain conditions
+    \item \textbf{Threshold Voltage Temperature Coefficient}: Generally negative, unlike MOSFETs
+\end{itemize}
+
+\subsubsection{Model Implementation}
+Transistor models in the library range from basic to advanced formulations:
+
+\begin{itemize}
+    \item \textbf{BER Model (BJTs)}: Berkeley-Epi-Coleman model with Gummel-Poon enhancements
+    \item \textbf{Modified Gummel-Poon}: Improved high-injection modeling
+    \item \textbf{MOSFET Levels 1-3}: From simple square-law to charge-based models
+    \item \textbf{BSIM3/MOSFET Level 8}: Industry-standard models for deep submicron devices (also applicable to power devices with appropriate parameters)
+    \item \textbf{Hicum/HiSIM}: Advanced models for RF and precision applications
+    \item \textbf{VESTAK}: Thermal-electrostatic model for power devices including self-heating
+    \item \textbf{EKV}: Enz-Krummenacher-Vittoz model for low-voltage analog and RF
+    \item \item \textbf{PSP}: Philips Semiconductors model for advanced NMOS/PMOS
+\end{itemize}
+
+Where possible, models are selected based on:
+\begin{itemize}
+    \item \textbf{Application Frequency}: Simpler models for low-frequency, detailed models for high-frequency switching
+    \item \textit{Required Accuracy}: Engineering estimates vs. precision design
+    \item \textit{Available Data}: Manufacturer-provided parameters vs. extracted values
+    \item \textit{Simulation Speed}: Complex models increase computation time significantly
+\end{itemize}
+
+Validation procedures include:
+\begin{itemize}
+    \item \textbf{Static Characteristics}: $I_C$-$V_{CE}$ and $I_B$-$V_{BE}$ curves compared to datasheets
+    \item \textbf{Dynamic Characteristics}: Switching times and energies versus specified values
+    \item \textbf{Temperature Sweep}: Parameter variation with temperature matching expected behavior
+    \item \textbf{Circuit Level Verification}: Performance in representative circuits (amplifiers, switches)
+\end{itemize}
+
+Specific device models employed in this work include:
+\begin{itemize}
+    \item \textbf{MOSFETs}: IRF640N, IRF540, CSD18537Q5B, SiC MOSFETs (C2M0025120D)
+    \item \textbf{IGBTs}: IRG4PC50W, FGH40N60SDS, CM600HA-24H
+    \item \textbf{BJTs}: 2N2222, 2N2907, TIP31C/TIP32C, DTA143EKA
+    \item \textbf{Diodes}: 1N4001-1N4007, 1N5819, MUR1560, ES1D, S1ML
+\end{itemize}
+
+Complete model libraries with source files and documentation are available in \texttt{docs/MODEL\_LIBRARY.md}.
+
+\subsection{Passive Component Models}
+While semiconductors receive significant modeling attention, parasitic elements in so-called "passive" components often dominate high-frequency behavior and losses in power electronics circuits.
+
+\subsubsection{Resistor Models}
+Beyond ideal resistance, practical resistors exhibit:
+\begin{itemize}
+    \item \textbf{Frequency-Dependent Resistance}: Due to skin effect and proximity effect
+    \item \item \textbf{Excess Noise}: Particularly in carbon composition types
+    \item \textbf{Temperature Coefficient (TCR)}: Typically 50-250 ppm/°C for metal film
+    \item \textbf{Voltage Coefficient (VCR)}: Significant in some thick film and composition types
+    \item \textbf{Parasitic Inductance}: From lead length and spiral geometry (0.1-20 nH typical)
+    \item \textbf{Parasitic Capacitance}: Between turns and to body (0.1-2 pF typical)
+    \item \textbf{Dielectric Absorption}: "Soak-back" effect in precision applications
+    \item \item \textbf{Failure Mechanisms}: Open circuit from overheating or mechanical stress
+\end{itemize}
+
+Common models include:
+\begin{itemize}
+    \item \textit{Metal Film}: MFR series (low TCR, low noise)
+    \item \item \textit{Thick Film}: RC series (cost-effective, moderate stability)
+    \item \item \textit{Wirewound}: WW series (high power, inductive at high frequencies)
+    \item \textit{Current Sense}: Low value (<0.1$\Omega$) with four-terminal construction
+    \item \item \textit{Thermistors}: NTC and PTC types for temperature sensing and protection
+\end{itemize}
+
+\subsubsection{Capacitor Models}
+Real capacitors deviate significantly from ideal behavior, particularly at the high frequencies encountered in switching power supplies:
+\begin{itemize}
+    \item \textbf{Equivalent Series Resistance (ESR)}: Primary loss mechanism, varies with frequency and temperature
+    \item \item \textbf{Equivalent Series Inductance (ESL)}: Limits effectiveness above self-resonant frequency
+    \item \item \textbf{Dielectric Absorption (DA)}: Energy storage and slow release causing voltage rebounce
+    \item \item \textbf{Insulation Resistance (IR)}: Leakage current through dielectric
+    \item \item \textbf{Voltage Coefficient}: Capacitance change with applied voltage (particularly ceramics)
+    \item \item \textbf{Frequency Dependence}: Capacitance value changes with frequency due to dielectric relaxation
+    \item \item \textbf{Temperature Characteristics}: Wide variety depending on dielectric type (C0G/NP0, X7R, Y5V, etc.)
+    \item \item \textbf{Mechanical Considerations}: Microphonics, shock sensitivity, and vibration response
+\end{itemize}
+
+Capacitor types modeled include:
+\begin{itemize}
+    \item \textit{Ceramic Multilayer (MLCC)}: C0G/NP0 (stable), X7R (general purpose), Y5V (high volumetric efficiency)
+    \item \item \textit{Electrolytic}: Aluminum (general purpose), Tantalum (stable), Polymer (low ESR)
+    \item \item \textit{Film}: Polyester (PET), Polypropylene (PP), Polycarbonate (PC), Polystyrene (PS)
+    \item \item \textit{Supercapacitors}: Electric double-layer capacitors for energy storage
+    \item \item \textit{Mica}: High stability, low loss for RF applications
+    \item \item \item \textit{Glass}: High temperature capability, excellent stability
+\end{itemize}
+
+Frequency-dependent models are essential for accurate simulation above 10kHz where ESL begins to dominate impedance.
+
+\subsubsection{Inductor and Transformer Models}
+Magnetic components exhibit complex frequency-dependent behavior:
+\begin{itemize}
+    \item \textbf{Winding Resistance}: Increases with frequency due to skin and proximity effects
+    \item \item \textbf{Core Losses}: Hysteresis and eddy current losses varying with frequency and flux density
+    \item \item \textbf{Saturation}: Inductance decrease with increasing current
+    \item \item \textbf{Leakage Inductance}: Between windings, critical for isolation and coupling coefficient
+    \item \item \textbf{Interwinding Capacitance}: Particularly important in transformers for isolation assessment
+    \item \item \textbf{Distributed Winding Effects}: Skin and proximity effects alter current distribution
+    \item \item \textbf{Air Gap Effects}: In ferromagnetic cores, affects saturation and linearity
+    \item \item \textbf{Frequency-Dependent Permeability}: Complex permeability describes both inductive and loss components
+\end{itemize}
+
+Core materials modeled include:
+\begin{itemize}
+    \item \textit{Silicon Steel}: Laminations for 50/60Hz transformers
+    \item \item \textit{Ferrites}: Manganese-zinc (MnZn) and nickel-zinc (NiZn) for switched-mode power supplies
+    \item \item \item \textit{Powdered Iron}: Various alloys for inductors with distributed air gap
+    \item \item \item \textit{Amorphous and Nanocrystalline}: Ultra-low loss materials for high-frequency applications
+    \item \item \item \textit{Air Core}: For high-frequency applications where saturation is undesirable
+\end{itemize}
+
+Advanced models incorporate the Steinmetz equation or improved generalized Steinmetz (iGSE) for core loss prediction, and the Dowell method for AC resistance calculation in windings.
+
+Validation of passive component models includes:
+\begin{itemize}
+    \item \textbf{Impedance Spectroscopy}: Comparing measured and simulated Z(f) over wide frequency range
+    \item \item \textbf{Step Response}: Evaluating transient behavior for time-domain accuracy
+    \item \item \textbf{Temperature Sweep}: Verifying thermal coefficient effects
+    \item \item \item \textbf{Power Handling}: Confirming power dissipation ratings under various conditions
+    \item \item \item \textbf{Resonance Frequency}: Validating self-resonant frequency predictions
+    \item \item \item \item \textit{Q-Factor}: Assessing energy storage efficiency
+\end{itemize}
+
+The importance of accurate passive modeling cannot be overstated in power electronics applications where switching frequencies extend into the hundreds of kilohertz to megahertz range, making parasitic effects dominant rather than negligible.
+
+Complete model libraries with detailed parameters and application notes are available in \texttt{docs/MODEL\_LIBRARY.md}.

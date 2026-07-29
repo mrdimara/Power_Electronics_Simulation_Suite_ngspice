@@ -1,0 +1,16 @@
+The rapid advancement of power electronics technology has created an increasing demand for accurate simulation tools that can predict the behavior of complex switching circuits under various operating conditions. While ideal component models provide valuable initial insights, they often fail to capture critical parasitic effects, switching losses, and nonlinear behaviors that significantly impact real-world performance. This limitation is particularly pronounced in high-frequency switching applications where parasitic inductances and capacitances can dominate circuit behavior.
+
+This report presents a comprehensive NGSpice-based power electronics simulation suite developed to address these challenges through accurate modeling of non-ideal components, integration of PCB parasitic extraction workflows, and comprehensive validation against experimental measurements. The work was conducted as part of power electronics research and education initiatives at the Electrical Engineering Department, IIT (ISM) Dhanbad.
+
+The simulation suite encompasses a wide range of power electronic topologies including:
+- DC-DC converters (buck, boost, buck-boost, flyback, forward, push-pull, half-bridge, full-bridge)
+- Motor drive systems (V/f control, SVPWM drives)
+- Renewable energy systems (photovoltaic arrays with MPPT, battery charging systems)
+- Power quality improvement circuits (active and passive power factor correction)
+- Switching device characterization circuits
+
+A key feature of this framework is its parasitic-aware design capability. Through integration with KiCad for schematic capture and PCB layout, and Ansys Q3D Extractor for 3D electromagnetic simulation, the tool enables accurate extraction of parasitic resistance, inductance, capacitance, and conductance (RLGC) parameters from physical PCB layouts. These extracted parasitics are then incorporated into NGSpice simulations to create highly accurate parasitic-aware models.
+
+Validation of the simulation framework is performed through comparison with experimental measurements obtained from a Keysight DSOX1204 digital oscilloscope using PyVISA-py for automated data acquisition. This comparison encompasses time-domain waveforms (switching transitions, ringing behavior), frequency-domain analysis (harmonic content, resonance frequencies), and key performance metrics (efficiency, voltage regulation, transient response).
+
+The remainder of this report is organized as follows: Section~\ref{sec:spice_methodology} details the NGspice simulation methodology and setup procedures; Section~\ref{sec:circuit_modelling} covers power electronics circuit modeling approaches; Section~\ref{sec:models} describes the semiconductor and passive component models employed; Section~\ref{sec:parasitics} explains the PCB parasitic extraction workflow; Section~\ref{sec:results} presents simulation results and comparisons with experimental data; Section~\ref{sec:waveform_processing} discusses the signal processing techniques used for waveform analysis; Section~\ref{sec:limitations} outlines current limitations and future work directions; and Section~\ref{sec:conclusion} concludes the report.

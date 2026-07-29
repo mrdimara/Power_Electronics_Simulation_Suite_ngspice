@@ -1,0 +1,91 @@
+This chapter presents simulation results from the power electronics systems modeled in this work, with emphasis on validation against experimental measurements where available. The results demonstrate the accuracy of the parasitic-aware modeling approach and provide insight into the behavior of several power electronic topologies under realistic operating conditions.
+
+\subsection{DC-DC Converter Results}
+\subsubsection{Boost Converter Analysis}
+The boost converter model in \repolink{simulations/converters/boost_converter/boost.cir} was evaluated in continuous conduction mode. Representative operating points and results are summarized below:
+\begin{itemize}
+    \item Input voltage: 12 V
+    \item Inductance: 10 $\mu$H
+    \item Output capacitance: 100 $\mu$F
+    \item Load resistance: 20 $\Omega$
+    \item Switching frequency: 100 kHz
+    \item Duty cycle: 0.6
+    \item MOSFET: IRF640NS with a 10 $\Omega$ gate resistor
+    \item Diode: MUR1560
+\end{itemize}
+
+The simulated average output voltage was approximately 28.7 V, close to the ideal value of 30 V. The ripple remained small and the estimated efficiency was around 95\%, indicating that the loss mechanisms were represented reasonably well.
+
+\subsubsection{Buck Converter Analysis}
+A synchronous buck converter model in \repolink{simulations/converters/buck_converter/buck.cir} was used to assess 12 V to 5 V conversion. The main operating conditions were:
+\begin{itemize}
+    \item Input voltage: 12 V
+    \item Output voltage target: 5 V
+    \item Inductance: 4.7 $\mu$H
+    \item Output capacitance: 22 $\mu$F per device, used in parallel
+    \item Load resistance: 2.5 $\Omega$
+    \item Switching frequency: 300 kHz
+    \item Control approach: peak current mode
+\end{itemize}
+
+The converter showed good regulation and acceptable transient response. The observed ripple and loss distribution were consistent with the expected behavior of a practical synchronous buck stage.
+
+\subsection{Motor Drive System Results}
+\subsubsection{V/Hz Controlled Induction Drive}
+A scalar V/Hz controlled induction motor drive in \repolink{learnings/power_electronics/v_by_f_im/} was analyzed to evaluate steady-state and transient behavior. The main system parameters were:
+\begin{itemize}
+    \item Motor rating: 0.5 kW, 220 V, 50 Hz, 4-pole induction machine
+    \item Stator resistance: 4.2 $\Omega$
+    \item Rotor resistance referred to the stator: 3.1 $\Omega$
+    \item Magnetizing inductance: 148 mH
+    \item Inverter DC bus: 300 V
+    \item Switching frequency: 5 kHz
+    \item V/Hz ratio: 4.4 V/Hz
+\end{itemize}
+
+The steady-state results at 50\% speed showed close agreement with the expected slip and torque characteristics. The transient response during start-up and reversal also reflected the expected effects of inertia and electromagnetic coupling.
+
+\subsection{Power Supply System Results}
+\subsubsection{MPPT Solar Charge Controller}
+A perturb-and-observe maximum power point tracking controller for photovoltaic charging was evaluated using \repolink{simulations/power_supplies/MPPT/mppt.cir}. The setup included:
+\begin{itemize}
+    \item PV panel model: 100 W, 18 V open-circuit voltage, 5.55 A short-circuit current
+    \item Battery: 12 V lead-acid model
+    \item Inductor: 100 $\mu$H
+    \item Output capacitance: 470 $\mu$F
+    \item Switching frequency: 20 kHz
+    \item Control method: perturb-and-observe
+\end{itemize}
+
+The controller tracked the maximum power point with high accuracy under uniform irradiation and responded predictably to step changes in irradiance. The simulation also showed the expected sensitivity to partial shading.
+
+\subsection{Rectifier and Power Quality Results}
+\subsubsection{Three-Phase Rectifier with Filtering}
+A six-pulse diode rectifier with capacitive filtering was modeled using \repolink{simulations/rectifiers/3Phase/rectifier_3P.cir}. The system included a three-phase 400 V input source, a resistive load, and an output filter capacitor. The simulation highlighted the trade-off between ripple reduction and harmonic distortion.
+
+The unfiltered case produced a high ripple and substantial harmonic content, while the filtered case showed a strong reduction in ripple at the cost of increased current stress. These observations are consistent with the typical behavior of capacitor-input rectifier systems.
+
+\subsection{Switching Device Characterization}
+\subsubsection{MOSFET Switching Energy Measurements}
+A double-pulse test circuit for an IRF640NS MOSFET was used to examine switching losses. The study showed that increasing gate resistance slowed the switching transitions and increased the total switching energy, while lower gate resistance reduced the switching time but increased ringing and voltage stress.
+
+\subsubsection{IGBT Switching Loss Analysis}
+The same methodology was applied to an IGBT model to compare the temperature dependence of switching loss. The results confirmed that the switching behavior of the IGBT differs from that of the MOSFET, particularly in terms of tail-current behavior and temperature sensitivity.
+
+\subsection{Parasitic Extraction Results}
+\subsubsection{Power Supply Board Switching Loop}
+The parasitic extraction workflow was applied to a switching loop in the power supply board example. Extracted inductance and resistance values agreed closely with the measured values, confirming that the layout-related parasitics were captured with acceptable fidelity.
+
+\subsubsection{High-Current Bus Bar Analysis}
+The bus bar example showed that the AC resistance and inductance increase significantly as frequency rises, which is consistent with skin effect and proximity effects in real conductors.
+
+\subsubsection{Gate Drive Signal Integrity}
+The gate-drive interconnect example highlighted the importance of trace geometry, return path placement, and impedance control. Even modest layout variations can lead to measurable timing and ringing differences.
+
+\subsubsection{Isolation Barrier Assessment}
+The isolation analysis confirmed that spacing and material properties are important design constraints in high-voltage power electronics. These results support the use of parasitic-aware simulation in assessment and design review.
+
+\subsection{Comparison with Hardware Measurements}
+Where physical prototypes were available, the simulations were compared with measured data. The agreement was generally within a few percent for the main quantities of interest, which supports the use of the developed modeling flow for design exploration and validation.
+
+The comparison also showed that the dominant residual discrepancies were associated with unmodeled parasitics, measurement uncertainty, and temperature-dependent effects rather than fundamental modeling errors. These observations provide a realistic basis for interpreting the simulation results and for identifying future refinement targets.

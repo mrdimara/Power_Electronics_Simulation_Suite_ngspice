@@ -1,0 +1,16 @@
+Accurate prediction of high-frequency behavior in power electronics circuits requires explicit modeling of parasitic elements introduced by PCB layout and component packaging. This chapter describes the printed circuit board (PCB) parasitic extraction workflow used in this work, which integrates KiCad, Ansys Q3D Extractor, and NGspice.
+
+\subsection{Overview of the Parasitic-Aware Design Flow}
+The workflow proceeds in a sequence of steps:
+\begin{enumerate}
+    \item Schematic capture in KiCad.
+    \item PCB placement and routing.
+    \item Export of the board geometry for electromagnetic analysis.
+    \item Extraction of RLGC parameters in Q3D Extractor.
+    \item Conversion of the extracted parameters into SPICE-compatible subcircuits.
+    \item Simulation in NGspice with the extracted parasitics included.
+    \item Comparison with measurement and iteration as needed.
+\end{enumerate}
+
+\subsection{Practical Considerations}
+The success of this workflow depends on careful treatment of geometry, material properties, port definition, and frequency range. In practice, the extracted parasitics are most useful when they are used as part of a broader validation process that also considers measurement uncertainty and model limitations.
