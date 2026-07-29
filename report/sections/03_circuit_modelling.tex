@@ -1,0 +1,135 @@
+Power electronics circuit modeling in this work emphasizes accurate representation of switching behavior, energy storage dynamics, and interaction between power and control circuits. The modeling approach follows a hierarchical strategy where basic power circuits are combined with control logic to create complete system models.
+
+\subsection{Switching Device Modeling}
+Accurate representation of semiconductor switching characteristics is fundamental to power electronics simulation. Rather than relying solely on ideal switches, this work employs detailed device models that capture:
+\begin{itemize}
+    \item \textbf{Forward Characteristics}: On-state voltage drop and current conduction behavior
+    \item \textbf{Reverse Characteristics}: Blocking capability and leakage currents
+    \item \qquad \textit{Switching Dynamics}: Turn-on and turn-off processes including delay times, rise/fall times
+    \item \textbf{Charge Storage Effects}: Gate charge (MOSFETs/IGBTs) and minority carrier lifetime (BJTs/diodes)
+    \item \textbf{Parasitic Elements}: Package inductances, capacitances, and lead resistances
+    \item \textbf{Temperature Dependencies}: Variation of key parameters with junction temperature
+    \item \textbf{Secondary Effects}: Avalanche breakdown, snapback, and other high-field phenomena
+\end{itemize}
+
+\subsection{Passive Component Modeling}
+Ideal passive components are insufficient for accurate high-frequency power electronics modeling. Enhanced models include:
+\begin{itemize}
+    \item \textbf{Resistors}:
+    \begin{itemize}
+        \item Frequency-dependent resistance (skin effect, proximity effect)
+        \item Temperature coefficients (TCR)
+        \item Voltage coefficients (for certain types)
+        \item Parasitic inductance (lead length, spiral structure)
+        \item Parasitic capacitance (inter-turn capacitance)
+    \end{itemize}
+    \item \textbf{Capacitors}:
+    \begin{itemize}
+        \item Equivalent Series Resistance (ESR) - primary loss mechanism
+        \item Equivalent Series Inductance (ESL) - limits high-frequency effectiveness
+        \item Dielectric absorption and leakage current
+        \item Voltage coefficient (particularly for ceramic capacitors)
+        \item Temperature dependence of capacitance
+    \end{itemize}
+    \item \textbf{Inductors and Transformers}:
+    \begin{itemize}
+        \item Winding resistance (DC and AC components)
+        \item Inter-winding capacitance
+        \item Core losses (hysteresis and eddy current)
+        \item Saturation characteristics
+        \item Leakage inductance (critical for coupled inductors and transformers)
+        \item Frequency-dependent permeability
+    \end{itemize}
+\end{itemize}
+
+\subsection{Circuit Topology Implementation}
+Common power electronics configurations are implemented with attention to parasitic effects:
+
+\subsubsection{DC-DC Converters}
+Basic converter topologies (buck, boost, buck-boost, etc.) are modeled with:
+\begin{itemize}
+    \item Non-ideal switches (MOSFETs/IGBTs with associated gate drive)
+    \item Realistic diodes (including reverse recovery characteristics)
+    \item Parasitic-aware inductors and capacitors
+    \item Current sensing elements for control feedback
+    \item Snubber circuits where employed for EMI reduction or voltage spike limiting
+\end{itemize}
+
+\subsubsection{Isolated Converters}
+Transformer-based topologies (flyback, forward, push-pull, half-bridge, full-bridge) incorporate:
+\begin{itemize}
+    \item Accurate transformer models with:
+    \begin{itemize}
+        \item Magnetizing inductance
+        \item Leakage inductance (winding separation dependent)
+        \item Interwinding capacitance
+        \item Winding resistances
+        \item Core loss models (when available)
+    \end{itemize}
+    \item Proper isolation barriers (creepage and clearance considerations in layout)
+    \item Secondary-side rectification and filtering
+    \item Feedback networks (optocouplers, transformers, or direct coupling for isolated designs)
+\end{itemize}
+
+\subsubsection{Resonant Converters}
+LC resonant topologies include:
+\begin{itemize}
+    \item Precise parasitic modeling (critical for resonance frequency accuracy)
+    \item Accurate semiconductor output capacitance (Coss) modeling
+    \item Capture of parasitic parallel resonances
+    \item Modeling of dielectric and magnetic losses in resonant tanks
+\end{itemize}
+
+\subsubsection{Motor Drive Systems}
+AC motor drive models incorporate:
+\begin{itemize}
+    \item Inverter bridge with realistic switching devices
+    \item Dead-time insertion models (critical for distortion analysis)
+    \item Motor electrical model (R-L back-EMF)
+    \item Mechanical load modeling (when electromechanical simulation is attempted)
+    \item Current sensing and protection circuitry
+    \item PWM generator with accurate timing characteristics
+\end{itemize}
+
+\subsubsection{Control and Gate Drive Circuits}
+Recognizing that control characteristics significantly impact power stage behavior:
+\begin{itemize}
+    \item \textbf{PWM Generation}: Accurate modeling of comparator delays, ramp generator characteristics, and logic gate propagation delays
+    \item \textbf{Error Amplifiers}: Operational amplifier models with gain-bandwidth product, slew rate, and offset voltage
+    \item \textbf{Reference Voltages}: Temperature-compensated voltage references where applicable
+    \item \textbf{Gate Drive Circuits}:
+    \begin{itemize}
+        \item Totem-pole or driver IC models with accurate output impedance
+        \item Gate resistance effects on switching speed
+        \item Gate-to-source and gate-to-drain capacitance modeling
+        \item Supply voltage variation effects (UVLO, etc.)
+        \item Negative drive voltage capability (when employed)
+    \end{itemize}
+\end{itemize}
+
+\subsection{Modeling Hierarchy and Reuse}
+To promote consistency and reduce development effort, models are organized hierarchically:
+\begin{enumerate}
+    \item \textbf{Device Level}: Individual semiconductor and passive component models
+    \item \textbf{Functional Blocks}: Gate drivers, reference voltages, error amplifiers, PWM generators
+    \item \textbf{Power Stages}: Converter topologies, inverter bridges, rectifier stages
+    \item \textbf{Control Loops}: Voltage mode, current mode, and hysteresis control implementations
+    \item \textbf{Complete Systems}: Integrated power and control systems with feedback
+\end{enumerate}
+
+Each level builds upon validated models from the previous level, ensuring consistency and reliability. Where possible, models are parameterized to allow easy adaptation to different specifications through simple value changes rather than requiring model modification.
+
+\subsection{Examples from the Repository}
+Specific implementations discussed in this report include:
+\begin{itemize}
+    \item \textbf{Boost Converter}: Non-inverting DC-DC step-up converter (\repolink{simulations/converters/boost_converter/boost.cir})
+    \item \textbf{Buck Converter}: DC-DC step-down converter illustrating current-mode control (\repolink{simulations/converters/buck_converter/buck.cir})
+    \item \textbf{Full-Bridge Inverter}: H-bridge configuration for AC motor drives (\repolink{simulations/converters/FullBridge_conv/FWB.cir})
+    \item \textbf{Three-Phase Rectifier}: Six-pulse diode rectifier with filtering (\repolink{simulations/rectifiers/3Phase/rectifier_3P.cir})
+    \item \textbf{MPPT Controller}: Perturb and observe algorithm implementation for photovoltaic systems (\repolink{simulations/power_supplies/MPPT/mppt.cir})
+    \item \textbf{Toroid Transformer}: Custom wound isolation transformer (\repolink{models/custom_subcircuits/tdk_n30_toroid.sub})
+\end{itemize}
+
+These examples demonstrate the application of the modeling principles outlined above to practical power electronics circuits, with attention to both power stage accuracy and control system fidelity.
+
+For a comprehensive listing of available component models and their parameters, refer to \texttt{docs/MODEL\_LIBRARY.md}.

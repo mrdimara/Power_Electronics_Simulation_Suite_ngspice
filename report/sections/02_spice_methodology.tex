@@ -1,0 +1,87 @@
+NGspice, an open-source mixed-signal/spice circuit simulator derived from Berkeley Spice 3f5, serves as the core simulation engine for this power electronics analysis suite. The version employed in this work is NGspice release 46, compiled with the eXtended SPICE (XSPICE) module enabled to support digital logic simulation and custom code modeling capabilities.
+
+\subsection{Simulation Deck Structure}
+Each simulation deck follows a standardized structure comprising:
+\begin{enumerate}
+    \item \textbf{Title and Comments}: Circuit description and revision information
+    \item \textbf{Component Definitions}: Passive components, sources, and semiconductor devices
+    \item \textbf{Model Statements}: Device model parameters (MOSFETs, diodes, BJTs, etc.)
+    \item \textbf{Subcircuit Calls}: Hierarchical design elements (transformers, controllers, etc.)
+    \item \textbf{Analysis Statements}: Specification of required analyses (.op, .dc, .ac, .tran, etc.)
+    \item \textbf{Control Blocks}: For automated simulation execution and measurement (.control .endc)
+    \item \textbf{Output Commands}: Specification of desired simulation results (.print, .plot, .four, .measure)
+\end{enumerate}
+
+\subsection{Analysis Types Employed}
+Depending on the investigation objectives, the following analysis types are utilized:
+
+\subsubsection{DC Operating Point Analysis (.op)}
+Used to determine the bias conditions of the circuit under steady-state DC excitation. Essential for initial convergence verification and bias point validation.
+
+\subsubsection{DC Sweep Analysis (.dc)}
+Employs to investigate circuit behavior as a function of a varying DC parameter (typically input voltage or load Resistance). Critical for evaluating operating ranges, transfer characteristics, and hysteresis behavior.
+
+\subsubsection{AC Small-Signal Analysis (.ac)}
+Performed to characterize frequency response, stability margins, and impedance characteristics. Utilizes linearized circuit equations around a DC operating point.
+
+\subsubsection{Transient Analysis (.tran)}
+The primary analysis type for power electronics applications, capturing time-domain behavior including switching transients, waveform distortion, and dynamic response. Key parameters include:
+\begin{itemize}
+    \item \textbf{Step Size}: Typically set to 1/100th of the switching period to adequately resolve switching edges
+    \item \textbf{Stop Time}: Chosen to capture several switching cycles after steady-state is reached (typically 20-100 switching periods)
+    \item \textbf{Integration Method}: Trapezoidal (default) for most applications, Gear (stiff) for circuits with severe time constant disparities
+\end{itemize}
+
+\subsubsection{Fourier Analysis (.four)}
+Applied to transient analysis results to determine harmonic content and total harmonic distortion (THD) of voltage and current waveforms, essential for power quality assessment.
+
+\subsection{Convergence Enhancement Techniques}
+Switching power supplies often present convergence challenges due to their discontinuous nature and tight feedback loops. The following strategies are routinely employed:
+
+\begin{enumerate}
+    \item \textbf{Shunt Resistance}: Placing large-value resistors (typically 1G$\Omega$) across inductive switches to provide a DC path
+    \item \textbf{Relaxed Tolerances}: Slightly increasing absolute (ABSTOL) and relative (RELTOL) tolerances when appropriate
+    \item \textbf{Initial Conditions}: Using .IC statements to establish reasonable starting conditions for energy storage elements
+    \item \textbf{Ramp-Up Sources}: Employing PWL or EXP sources with gradual turn-on to avoid instantaneous state changes
+    \item \textbf{Minimum Switch On/Off Times}: Implementing minimum pulse width constraints to prevent unrealistic duty cycles
+    \item \textbf{Geometric Integration}: Switching to Gear integration for stiff systems exhibiting severe time constant disparities
+\end{enumerate}
+
+\subsection{Model Implementation}
+Semiconductor devices are implemented using industry-standard SPICE models where available, with particular attention to:
+\begin{itemize}
+    \item \textbf{Model Level Selection}: Choosing appropriate model complexity (Level 1-8 for MOSFETs) based on required accuracy and simulation speed
+    \item \textbf{Temperature Dependence}: Ensuring proper thermal coefficients are modeled for temperature-sensitive parameters
+    \item \textbf{Parasitic Inclusion}: Incorporating package parasitics (lead inductance, bond wire capacitance) when significant
+    \item \textbf{Validating Against Datasheets}: Comparing key parameters (Vth, Rds(on), gate charge, etc.) with manufacturer specifications
+\end{itemize}
+
+Passive components are enhanced beyond ideal models to include:
+\begin{itemize}
+    \item \textbf{Resistors}: Temperature coefficients, voltage coefficients, and parasitic inductance
+    \item \textbf{Capacitors}: Equivalent series resistance (ESR), equivalent series inductance (ESL), and dielectric absorption
+    \item \textbf{Inductors}: Winding resistance, inter-winding capacitance, and core losses (where modeled)
+\end{itemize}
+
+\subsection{Measurement and Post-Processing}
+NGspice's built-in measurement capabilities (.measure statement) are extensively used to extract key parameters directly from simulation results, including:
+\begin{itemize}
+    \item Timing parameters (delay times, rise/fall times, pulse widths)
+    \item Magnitude measurements (peak, average, RMS values)
+    \item Power and efficiency calculations
+    \item Impedance and admittance derivations
+    \item Custom calculations through user-defined expressions
+\end{itemize}
+
+For more advanced processing, simulation output files (.raw) are exported to MATLAB/Octave for specialized analysis including:
+\begin{itemize}
+    \item Advanced time-frequency analysis (wavelet transforms, Hilbert-Huang transform)
+    \item Custom filtering and noise reduction
+    \item Parameter extraction through curve fitting
+    \item Statistical analysis and Monte Carlo variation studies
+\end{itemize}
+
+\subsection{Because of space limitations, many implementation details are referenced to the accompanying documentation files.}
+For comprehensive guidance on simulation setup, execution, and troubleshooting, refer to \texttt{docs/SIMULATION\_GUIDE.md}. For detailed information on available component models, consult \texttt{docs/MODEL\_LIBRARY.md}.
+
+\textbf{Note:} All simulation files referenced in this report are available in the repository and can be recreated using the paths specified in the text (e.g., \repolink{simulations/converters/boost_converter/boost.cir}).

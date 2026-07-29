@@ -1,0 +1,108 @@
+---
+tags: [model, transformer, magnetics]
+status: reference
+related:
+  - [[NOVA Gate Driver]]
+  - [[Ferrite Core Material Properties]]
+  - [[Coupled Inductor Modeling]]
+---
+
+# TDK N30 Toroid Transformer Model
+
+## Overview
+Custom wound toroid transformer model based on TDK/EPCOS N30 material core, used in the NOVA gate driver project for galvanic isolation and voltage transformation.
+
+## Core Specifications
+- **Material**: TDK/EPCOS N30 (Nickel-Zinc ferrite)
+- **Size**: R12.5×7.5×5 (Outer Diameter 12.5mm, Height 7.5mm, Inner Diameter 5mm)
+- **Effective Parameters**:
+  - Effective cross-sectional area (Ae): 21.2 mm²
+  - Effective magnetic path length (le): 27.6 mm
+  - Effective volume (Ve): 585 mm³
+  - AL value: 2200 nH/N² (±25%)
+
+## Winding Configuration
+- **Primary Winding (Np)**: 12 turns
+- **Secondary Winding 1 (Ns1)**: 9 turns  
+- **Secondary Winding 2 (Ns2)**: 5 turns
+- **Winding Technique**: Layer winding with insulation between layers
+- **Wire Gauge**: Selected based on current requirements and window utilization
+
+## Electrical Characteristics
+### Ideal Transformer Ratios
+- **Np:Ns1**: 12:9 = 4:3 = 1.333
+- **Np:Ns2**: 12:5 = 2.4
+- **Ns1:Ns2**: 9:5 = 1.8
+
+### Inductance Values (calculated from AL)
+- **Primary Inductance (Lp)**: AL × Np² = 2200 nH × 12² = 316.8 μH
+- **Secondary 1 Inductance (Ls1)**: AL × Ns1² = 2200 nH × 9² = 178.2 μH
+- **Secondary 2 Inductance (Ls2)**: AL × Ns2² = 2200 nH × 5² = 55.0 μH
+
+### Leakage Inductance
+Estimated 1-3% of magnetizing inductance depending on winding technique:
+- **Primary Leakage (Llk)**: ~3-10 μH
+- **Secondary Leakage**: Proportional to turns squared
+
+### Winding Resistance
+Estimated based on wire length and gauge (dependent on specific wire selection):
+- **Primary (Rwp)**: Typically 0.1-0.5 Ω
+- **Secondary 1 (Rws1)**: Typically 0.05-0.3 Ω  
+- **Secondary 2 (Rws2)**: Typically 0.02-0.15 Ω
+
+### Interwinding Capacitance
+- Primary to Secondary: 5-20 pF (depends on layer insulation)
+- Secondary to Secondary: 2-10 pF
+
+## SPICE Subcircuit Implementation
+The transformer is modeled as a coupled inductor network with:
+1. **Ideal Transformer Component**: For perfect coupling portion
+2. **Leakage Inductances**: Series inductances on each winding
+3. **Winding Resistances**: Series resistances for copper loss
+4. **Mutual Capacitances**: Between windings and to core
+5. **Core Loss Modeling**: Optional parallel resistance for hysteresis/eddy current losses
+
+## Key Features of the Model
+- **Frequency Range**: Effective from 50 Hz to >1 MHz (limited by parasitic capacitance at high frequencies)
+- **Power Handling**: Suitable for medium power applications (typically <50W depending on frequency and cooling)
+- **Isolation**: Provides galvanic isolation between primary and secondary circuits
+- **Multiple Outputs**: Ability to generate multiple isolated voltage levels
+
+## Usage in NOVA Gate Driver
+In the NOVA gate driver project, this transformer provides:
+1. **Isolation**: Between control circuitry and power stage
+2. **Voltage Scaling**: Adapt gate drive voltage levels as needed
+3. **Multiple Outputs**: Drive multiple MOSFETs or provide bias voltages
+4. **Noise Reduction**: Reduce common-mode noise coupling
+
+## Design Considerations
+1. **Saturation Current**: Ensure peak current remains below saturation limit
+2. **Temperature Rise**: Account for copper losses and core losses
+3. **Frequency Selection**: Operatio**: Choose switching frequency to balance size, losses, and performance
+4. **Parasitic Effects**: Account for leakage inductance and winding capacitance in high-frequency designs
+5. **Winding Layout**: Minimize loop areas to reduce EMI
+
+## Implementation Files
+- **Subcircuit Definition**: `models/custom_subcircuits/tdk_n30_toroid.sub`
+- **Usage Example**: 
+  ```
+  X1 PRI_SEC1 SEC2 CT VTK_N30_12_9_5
+  .LIB ./models/custom_subcircuits/tdk_n30_toroid.sub
+  ```
+- **Test Circuit**: May include surrounding components for validation
+
+## Validation Approach
+- **Open Circuit Inductance**: Measure primary inductance with secondaries open
+- **Short Circuit Impedance**: Measure impedance with secondary shorted (reflects leakage)
+- **Turns Ratio Verification**: Apply known voltage, measure induced voltages
+- **Frequency Response**: Measure inductance vs. frequency to identify self-resonance
+- **Temperature Effects**: Validate performance across operating temperature range
+
+## Related Models
+- [[Ferrite Core Material Properties]] - N30 material characteristics
+- [[Transformer Design Guidelines]] - General power transformer design
+- [[Coupled Inductor Modeling]] - SPICE techniques for magnetic components
+- [[Isolated Gate Drive Requirements]] - Isolation needs for MOSFET drivers
+
+## Tags
+#model #transformer #toroid #ferrite #n30 #custom-subcircuit #magnetics #isolation

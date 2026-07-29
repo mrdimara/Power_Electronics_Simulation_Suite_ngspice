@@ -1,0 +1,31 @@
+This chapter summarizes the signal-processing workflow used to interpret transient simulation and measurement data from the power-electronics study. The goal is to turn raw time-series data into engineering quantities such as switching times, ripple, losses, and harmonic content.
+
+\subsection{Analysis Pipeline}
+A typical workflow follows these steps:
+\begin{enumerate}
+    \item \textbf{Data acquisition}: Import NGspice raw data or oscilloscope measurements.
+    \item \textbf{Preprocessing}: Remove offsets, resample as needed, and clean obvious artifacts.
+    \item \textbf{Feature extraction}: Detect switching events, peaks, and intervals of interest.
+    \item \textbf{Time-domain analysis}: Extract rise time, settling time, overshoot, and ripple.
+    \item \textbf{Frequency-domain analysis}: Evaluate spectra, harmonics, and resonant behavior.
+    \item \textbf{Reporting}: Present the results with context and uncertainty.
+\end{enumerate}
+
+\subsection{Processing Techniques}
+Common techniques applied in this work include:
+\begin{itemize}
+    \item \textbf{Filtering}: Low-pass, high-pass, and notch filtering for noise reduction.
+    \item \textbf{Windowing}: Hann or Hamming windows for spectral analysis.
+    \item \textbf{Detrending}: Remove slow baseline drift before extracting AC features.
+    \item \textbf{Thresholding}: Identify switching transitions and pulse boundaries.
+\end{itemize}
+
+\subsection{Representative Metrics}
+Representative metrics used throughout the report include:
+\begin{itemize}
+    \item \textbf{Rise time}: Time required to move from 10\% to 90\% of the final value.
+    \item \textbf{Settling time}: Time for a transient to remain within a defined error band.
+    \item \textbf{Overshoot}: Excess above the final steady-state value.
+    \item \textbf{RMS value}: Root-mean-square magnitude of the waveform.
+    \item \textbf{THD}: Total harmonic distortion of the waveform.
+\end{itemize}
