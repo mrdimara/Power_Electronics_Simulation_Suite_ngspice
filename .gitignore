@@ -14,6 +14,7 @@ learnings/rectifier/non-idealities/.history/
 # Ignore generated data and plot files
 *.data
 *.plt
+*.raw
 # Ignore CSV outputs (generatable)
 *.csv
 # Ignore result directories
